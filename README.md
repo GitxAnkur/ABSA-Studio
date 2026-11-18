@@ -149,10 +149,10 @@ Pages:
 
 | Page | Contents |
 |---|---|
-| **Overview** | Project framing, headline metrics, architecture figure and a quick prediction box. |
+| **Overview** | Hero section, four headline metric cards, problem/solution framing, connected NLP pipeline, project highlights and a quick prediction box. |
 | **Analyse Review** | Full ABSA demo: free-text input, test-set examples, supervised vs. pLSA+TF-ICF aspect detection, LR/SVM/BiLSTM selection, threshold and top-k controls, per-aspect probabilities, cleaned text and model configuration. |
 | **Model Performance** | Actual test metrics, model comparison, confusion matrices, per-aspect F1, BiLSTM training curves, aspect-detection comparison and the most confident errors. |
-| **Dataset** | Source, class distributions, sample records, statistics JSON and live preprocessing examples. |
+| **Dataset** | Source, task-view structure, corpus statistics, class distributions, sample records, statistics JSON and live preprocessing examples. |
 | **Methodology** | Task formulation, preprocessing table, feature extraction, pLSA/TF-ICF equations, model configurations and evaluation protocol. |
 | **About** | Objectives, technology stack, repository layout, limitations, future work and references. |
 
@@ -165,6 +165,10 @@ Predictions come only from the saved model artefacts; nothing is hard-coded.
 ```text
 NLP_PROJ/
 ├── app.py                     Streamlit application (6 pages)
+├── frontend/
+│   ├── components.py          Reusable HTML/SVG presentation components
+│   └── styles.py              Light-theme design system and responsive CSS
+├── .streamlit/config.toml     Streamlit theme and server configuration
 ├── README.md                  This document
 ├── PROJECT_REPORT.md          Formal academic report
 ├── requirements.txt           Pinned dependencies

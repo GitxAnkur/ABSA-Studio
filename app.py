@@ -1,4 +1,8 @@
-"""Streamlit application for aspect-based sentiment analysis.
+"""ABSA Studio — a polished Streamlit frontend for the ABSA NLP project.
+
+The application is a presentation layer only: every prediction, metric and
+dataset figure is produced by the existing backend under ``src/`` and the
+saved artefacts under ``models/``.
 
 Run:
     streamlit run app.py
@@ -20,10 +24,31 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
+from frontend.components import (
+    badge,
+    empty_state,
+    hero,
+    highlight_card,
+    info_card,
+    kpi_card,
+    page_header,
+    pipeline_steps,
+    probability_bar,
+    result_card,
+    section_header,
+    sidebar_brand,
+    sidebar_footer,
+    sidebar_project,
+    sidebar_status,
+    table_html,
+    timeline,
+    verdict_card,
+)
+from frontend.styles import GLOBAL_CSS
 from src.config import (
-    ASPECTS,
     ASPECT_DESCRIPTIONS,
     ASPECT_DISPLAY,
+    ASPECTS,
     FIGURES_DIR,
     LSTM_META_PATH,
     METRICS_PATH,
@@ -34,78 +59,42 @@ from src.data_loader import load_aspect_sentiment, load_dataset_stats, load_sent
 from src.predict import AspectSentimentEngine
 
 # ---------------------------------------------------------------------------
-# Page configuration and styling
+# Page configuration and design system
 # ---------------------------------------------------------------------------
 st.set_page_config(
-    page_title="ABSA Studio | Restaurant Reviews",
+    page_title="ABSA Studio | Restaurant Review Intelligence",
     page_icon="🍽️",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="auto",
 )
 
-CUSTOM_CSS = """
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+st.markdown(GLOBAL_CSS, unsafe_allow_html=True)
 
-html, body, [class*="css"] { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
-.stApp { background: #F8FAFC; }
-.block-container { padding-top: 1.4rem; padding-bottom: 3rem; max-width: 1280px; }
-
-h1, h2, h3 { color: #0F172A; letter-spacing: -0.02em; }
-p, li, span, div { color: #334155; }
-
-.hero {
-    background: linear-gradient(120deg, #0F172A 0%, #1E3A8A 55%, #2563EB 100%);
-    border-radius: 22px; padding: 38px 42px; color: white; margin-bottom: 26px;
-    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.22);
+PAGES = ["Overview", "Analyse Review", "Model Performance", "Dataset", "Methodology", "About"]
+NAV_ICONS = {
+    "Overview": "◈",
+    "Analyse Review": "◎",
+    "Model Performance": "◫",
+    "Dataset": "▤",
+    "Methodology": "◇",
+    "About": "ⓘ",
 }
-.hero h1 { color: #FFFFFF; font-size: 2.35rem; line-height: 1.15; margin: 0 0 10px 0; }
-.hero p { color: #DBEAFE; font-size: 1.03rem; max-width: 880px; margin: 0; }
-.hero .kicker { display:inline-block; background: rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.22);
-    padding: 5px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
-    text-transform: uppercase; margin-bottom: 16px; color:#E0E7FF; }
-
-.card { background:#FFFFFF; border:1px solid #E2E8F0; border-radius:16px; padding:22px 24px;
-    box-shadow: 0 6px 18px rgba(15,23,42,0.05); height:100%; }
-.card h3 { font-size:1.02rem; margin:0 0 8px 0; }
-.card p { font-size:0.92rem; margin:0; color:#475569; line-height:1.55; }
-
-.kpi { background:#FFFFFF; border:1px solid #E2E8F0; border-radius:14px; padding:16px 18px;
-    box-shadow:0 4px 12px rgba(15,23,42,0.04); }
-.kpi .label { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; color:#64748B; font-weight:700; }
-.kpi .value { font-size:1.7rem; font-weight:800; color:#0F172A; margin-top:2px; }
-.kpi .hint { font-size:0.78rem; color:#94A3B8; }
-
-.badge { display:inline-block; padding:5px 13px; border-radius:999px; font-size:0.78rem;
-    font-weight:700; text-transform:capitalize; letter-spacing:0.01em; }
-.badge-positive { background:#DCFCE7; color:#15803D; border:1px solid #BBF7D0; }
-.badge-negative { background:#FEE2E2; color:#B91C1C; border:1px solid #FECACA; }
-.badge-neutral  { background:#FEF3C7; color:#B45309; border:1px solid #FDE68A; }
-
-.aspect-title { font-size:1.02rem; font-weight:700; color:#0F172A; }
-.aspect-sub { font-size:0.8rem; color:#64748B; }
-.prob-track { background:#EEF2F7; border-radius:999px; height:9px; overflow:hidden; margin:7px 0 3px 0; }
-.prob-fill { height:100%; border-radius:999px; }
-.small-note { font-size:0.78rem; color:#64748B; }
-.section-label { font-size:0.72rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase; color:#64748B; margin-bottom:6px; }
-
-div[data-testid="stSidebar"] { background:#FFFFFF; border-right:1px solid #E2E8F0; }
-div[data-testid="stSidebar"] .block-container { padding-top: 1.5rem; }
-.stButton>button { border-radius:10px; font-weight:600; border:1px solid #CBD5E1; }
-.stButton>button[kind="primary"] { background:#2563EB; border-color:#2563EB; }
-.stTextArea textarea { border-radius:12px; border:1px solid #CBD5E1; font-size:0.95rem; }
-.stTabs [data-baseweb="tab-list"] { gap: 8px; }
-.stTabs [data-baseweb="tab"] { background:#FFFFFF; border:1px solid #E2E8F0; border-radius:10px 10px 0 0; padding:8px 16px; }
-.stTabs [aria-selected="true"] { background:#EFF6FF; border-color:#BFDBFE; color:#1D4ED8; }
-footer { visibility: hidden; }
-#MainMenu { visibility: hidden; }
-</style>
-"""
-st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
+SENTIMENT_COLORS = {
+    "positive": "#16A34A",
+    "negative": "#DC2626",
+    "neutral": "#D97706",
+}
+MODEL_DISPLAY = {
+    "majority": "Majority class",
+    "tfidf_logreg": "TF-IDF + LR",
+    "tfidf_svm": "TF-IDF + SVM",
+    "bilstm": "BiLSTM",
+    "lexicon_plsa_tficf": "pLSA + TF-ICF lexicon",
+}
 
 
 # ---------------------------------------------------------------------------
-# Data loading (cached)
+# Cached data / model access
 # ---------------------------------------------------------------------------
 @st.cache_resource(show_spinner=False)
 def get_engine() -> AspectSentimentEngine:
@@ -161,71 +150,124 @@ def get_classification_report() -> str:
     return ""
 
 
+# ---------------------------------------------------------------------------
+# Presentation helpers
+# ---------------------------------------------------------------------------
 def figure_path(name: str) -> str:
     return os.path.join(FIGURES_DIR, name)
 
 
 def show_figure(name: str, caption: str | None = None) -> None:
     path = figure_path(name)
-    if os.path.exists(path):
+    if not os.path.exists(path):
+        st.info(f"Figure not found: {name}. Run `python -m scripts.generate_figures`.")
+        return
+    with st.container(border=True):
         st.image(path, width="stretch")
         if caption:
             st.caption(caption)
-    else:
-        st.info(f"Figure not found: {name}. Run `python -m scripts.generate_figures`.")
 
 
-# ---------------------------------------------------------------------------
-# Reusable HTML components
-# ---------------------------------------------------------------------------
-def badge(label: str) -> str:
-    return f'<span class="badge badge-{label}">{label.title()}</span>'
+def render_metric_cards(items: List[tuple]) -> None:
+    cols = st.columns(len(items), gap="medium")
+    for col, (icon_name, label, value, subtitle, tone) in zip(cols, items):
+        with col:
+            st.markdown(
+                kpi_card(icon_name, label, value, subtitle, tone),
+                unsafe_allow_html=True,
+            )
 
 
-def probability_bar(value: float, color: str = "#2563EB", height: int = 9) -> str:
+def render_table(frame: pd.DataFrame) -> None:
+    st.markdown(table_html(frame), unsafe_allow_html=True)
+
+
+def aspect_card_html(item: Dict) -> str:
+    sentiment = item["sentiment"]
+    color = SENTIMENT_COLORS[sentiment]
     return (
-        f'<div class="prob-track" style="height:{height}px">'
-        f'<div class="prob-fill" style="width:{max(0, min(1, value)) * 100:.1f}%;background:{color}"></div>'
-        f"</div>"
+        f'<div class="aspect-card {sentiment}">'
+        f'<div class="aspect-head"><div>'
+        f'<div class="aspect-name">{html.escape(item["display"])}</div>'
+        f'<div class="aspect-sub">Aspect presence · {item["aspect_probability"]:.1%}</div>'
+        f"</div>{badge(sentiment)}</div>"
+        f'{probability_bar(item["aspect_probability"], "#4338CA")}'
+        f'<div class="aspect-sub" style="margin-top:11px;">Sentiment confidence · '
+        f'{item["confidence"]:.1%}</div>'
+        f'{probability_bar(item["confidence"], color, 11)}'
+        "</div>"
     )
 
 
-SENTIMENT_COLORS = {"positive": "#10B981", "negative": "#EF4444", "neutral": "#F59E0B"}
+def sentiment_chart(probabilities: Dict[str, float]) -> alt.Chart:
+    frame = pd.DataFrame(
+        {
+            "Sentiment": [label.title() for label in SENTIMENT_LABELS],
+            "Probability": [probabilities[label] for label in SENTIMENT_LABELS],
+        }
+    )
+    return (
+        alt.Chart(frame)
+        .mark_bar(cornerRadiusEnd=6)
+        .encode(
+            x=alt.X(
+                "Probability:Q",
+                scale=alt.Scale(domain=[0, 1]),
+                title="Probability",
+                axis=alt.Axis(format=".0%", grid=True),
+            ),
+            y=alt.Y(
+                "Sentiment:N",
+                sort=["Negative", "Neutral", "Positive"],
+                title=None,
+            ),
+            color=alt.Color(
+                "Sentiment:N",
+                scale=alt.Scale(
+                    domain=["Negative", "Neutral", "Positive"],
+                    range=["#DC2626", "#D97706", "#16A34A"],
+                ),
+                legend=None,
+            ),
+            tooltip=[
+                alt.Tooltip("Sentiment:N", title="Sentiment"),
+                alt.Tooltip("Probability:Q", format=".3f", title="Probability"),
+            ],
+        )
+        .properties(height=118)
+        .configure_view(stroke=None)
+    )
 
 
 # ---------------------------------------------------------------------------
 # Sidebar
 # ---------------------------------------------------------------------------
+stats = get_stats()
+train_sentences = stats.get("splits", {}).get("train", {}).get("sentences") if stats else None
+test_sentences = stats.get("splits", {}).get("test", {}).get("sentences") if stats else None
+
+try:
+    _engine = get_engine()
+    engine_ok = True
+    engine_status = f"Models loaded · {len(_engine.available_sentiment_models)} sentiment models"
+except Exception as exc:  # pragma: no cover - only when artefacts are missing
+    engine_ok = False
+    engine_status = "Models unavailable"
+
 with st.sidebar:
-    st.markdown(
-        '<div style="font-size:1.25rem;font-weight:800;color:#0F172A;letter-spacing:-0.02em;">🍽️ ABSA Studio</div>'
-        '<div class="small-note" style="margin-bottom:18px;">Aspect-Based Sentiment Analysis<br>'
-        "SemEval-2014 · Restaurant domain</div>",
-        unsafe_allow_html=True,
-    )
+    st.markdown(sidebar_brand(), unsafe_allow_html=True)
+    st.markdown('<div class="sidebar-section">Workspace</div>', unsafe_allow_html=True)
     page = st.radio(
         "Navigation",
-        [
-            "Overview",
-            "Analyse Review",
-            "Model Performance",
-            "Dataset",
-            "Methodology",
-            "About",
-        ],
+        PAGES,
         label_visibility="collapsed",
+        format_func=lambda name: f"{NAV_ICONS.get(name, '•')}  {name}",
     )
-    st.divider()
-    st.markdown('<div class="section-label">System status</div>', unsafe_allow_html=True)
-    try:
-        _engine = get_engine()
-        st.success(f"Models loaded · {len(_engine.available_sentiment_models)} sentiment models")
-    except Exception as exc:  # pragma: no cover - only on missing artefacts
-        st.error(f"Models not loaded:\n\n{exc}")
-    st.markdown(
-        '<div class="small-note" style="margin-top:14px;">Trained on 3,035 reviews · evaluated on 800 held-out reviews.</div>',
-        unsafe_allow_html=True,
-    )
+    st.markdown('<div class="side-divider"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="sidebar-section">Live system</div>', unsafe_allow_html=True)
+    st.markdown(sidebar_status(engine_ok, engine_status), unsafe_allow_html=True)
+    st.markdown(sidebar_project(train_sentences, test_sentences), unsafe_allow_html=True)
+    st.markdown(sidebar_footer(), unsafe_allow_html=True)
 
 
 # ---------------------------------------------------------------------------
@@ -233,159 +275,233 @@ with st.sidebar:
 # ---------------------------------------------------------------------------
 if page == "Overview":
     metrics = get_metrics()
-    stats = get_stats()
-
-    best_aspect_micro = (
+    aspect_micro = (
         metrics.get("aspect_detection", {}).get("tfidf_logreg", {}).get("micro_f1")
+        if metrics
+        else None
     )
-    best_sentiment_macro = metrics.get("sentiment", {}).get("tfidf_logreg", {}).get("macro_f1")
+    sentiment_macro = (
+        metrics.get("sentiment", {}).get("tfidf_logreg", {}).get("macro_f1")
+        if metrics
+        else None
+    )
+    total_reviews = (
+        train_sentences + test_sentences
+        if train_sentences is not None and test_sentences is not None
+        else None
+    )
 
     st.markdown(
-        """
-        <div class="hero">
-          <div class="kicker">Natural Language Processing · Coursework Project</div>
-          <h1>Aspect-Based Sentiment Analysis<br>of Restaurant Reviews</h1>
-          <p>Discover <b>what</b> diners are talking about and <b>how</b> they feel about each aspect —
-          food, service, price, ambience and overall experience — using topic modelling,
-          TF-ICF lexicon expansion, TF-IDF classifiers and a BiLSTM neural network.</p>
-        </div>
-        """,
+        hero(
+            "Natural Language Processing · Coursework Project",
+            "Aspect-Based Sentiment Analysis of Restaurant Reviews",
+            "An NLP-powered analytics platform that identifies restaurant review aspects "
+            "and understands customer sentiment at a granular level — moving beyond a "
+            "single star rating to reveal what diners actually praise or criticise.",
+            [
+                "Topic Modelling · pLSA",
+                "TF-IDF features",
+                "TF-ICF lexicon expansion",
+                "Aspect detection",
+                "Sentiment classification",
+                "GloVe BiLSTM",
+            ],
+        ),
         unsafe_allow_html=True,
     )
 
-    c1, c2, c3, c4 = st.columns(4)
-    with c1:
-        st.markdown(
-            '<div class="kpi"><div class="label">Reviews</div><div class="value">3,841</div>'
-            '<div class="hint">SemEval-2014 restaurant</div></div>',
-            unsafe_allow_html=True,
-        )
-    with c2:
-        st.markdown(
-            '<div class="kpi"><div class="label">Aspect categories</div><div class="value">5</div>'
-            '<div class="hint">food · service · price · ambience · misc.</div></div>',
-            unsafe_allow_html=True,
-        )
-    with c3:
-        st.markdown(
-            f'<div class="kpi"><div class="label">Aspect detection</div><div class="value">{best_aspect_micro:.3f}</div>'
-            '<div class="hint">micro-F1 · held-out test set</div></div>'
-            if best_aspect_micro is not None
-            else '<div class="kpi"><div class="label">Aspect detection</div><div class="value">—</div></div>',
-            unsafe_allow_html=True,
-        )
-    with c4:
-        st.markdown(
-            f'<div class="kpi"><div class="label">Sentiment macro-F1</div><div class="value">{best_sentiment_macro:.3f}</div>'
-            '<div class="hint">TF-IDF + logistic regression</div></div>'
-            if best_sentiment_macro is not None
-            else '<div class="kpi"><div class="label">Sentiment macro-F1</div><div class="value">—</div></div>',
-            unsafe_allow_html=True,
-        )
+    render_metric_cards(
+        [
+            (
+                "message",
+                "Reviews analysed",
+                f"{total_reviews:,}" if total_reviews is not None else "—",
+                "Official train + test splits",
+                "indigo",
+            ),
+            (
+                "layers",
+                "Aspect categories",
+                str(len(ASPECTS)),
+                "Food · service · price · ambience · misc.",
+                "purple",
+            ),
+            (
+                "target",
+                "Aspect detection",
+                f"{aspect_micro:.3f}" if aspect_micro is not None else "—",
+                "Micro-F1 · held-out test set",
+                "blue",
+            ),
+            (
+                "activity",
+                "Sentiment macro-F1",
+                f"{sentiment_macro:.3f}" if sentiment_macro is not None else "—",
+                "Best classical model · TF-IDF + LR",
+                "green",
+            ),
+        ]
+    )
 
     st.write("")
-    left, right = st.columns([1.15, 0.85], gap="large")
+    st.markdown(
+        section_header(
+            "Why it matters",
+            "A review is not one opinion — it is a collection of opinions",
+            "Aspect-level analysis turns free text into actionable feedback.",
+        ),
+        unsafe_allow_html=True,
+    )
+    left, right = st.columns(2, gap="large")
     with left:
         st.markdown(
-            """
-            <div class="card">
-              <h3>The problem</h3>
-              <p>Star ratings collapse an entire visit into a single number. A restaurant can serve
-              excellent food while the service is rude and the prices are unfair. Businesses need
-              <b>aspect-level</b> feedback to know what to fix, yet manually reading thousands of
-              reviews is not scalable.</p>
-              <br>
-              <h3>The solution</h3>
-              <p>This system reads a free-text review, detects which aspects are discussed, and
-              predicts the polarity of each aspect independently. It combines a transparent
-              probabilistic topic model (pLSA) and TF-ICF lexicon induction with supervised
-              text classifiers, and wraps them in an interactive demonstration.</p>
-            </div>
-            """,
+            info_card(
+                "alert",
+                "The problem",
+                "Star ratings collapse an entire restaurant visit into one number. A restaurant "
+                "can serve excellent food while the service is rude and the prices are unfair. "
+                "Owners and analysts need to know <b>which part</b> of the experience is driving "
+                "the rating, yet manually reading thousands of reviews is not scalable.",
+                "problem",
+            ),
             unsafe_allow_html=True,
         )
-        st.write("")
-        st.markdown(
-            """
-            <div class="card">
-              <h3>What you can do here</h3>
-              <p>• Analyse your own review and inspect per-aspect confidence scores.<br>
-              • Compare the BiLSTM against TF-IDF baselines on the same input.<br>
-              • Explore the pLSA topics and the induced aspect lexicon.<br>
-              • Review actual test-set metrics, confusion matrices and error analysis.</p>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
     with right:
-        st.markdown('<div class="section-label">Pipeline</div>', unsafe_allow_html=True)
-        show_figure("architecture.png")
-
-    st.divider()
-    st.subheader("Try a review")
-    st.caption("This quick demo uses the saved models. Open **Analyse Review** for full controls.")
-    quick_default = (
-        "The pasta was absolutely delicious and the staff were friendly, "
-        "but the music was too loud and the prices are a bit high."
-    )
-    quick_text = st.text_area("Review text", value=quick_default, height=100, key="overview_input")
-    qcol1, qcol2 = st.columns([0.2, 0.8])
-    with qcol1:
-        run_quick = st.button("Analyse", type="primary", key="overview_run")
-    if run_quick:
-        try:
-            engine = get_engine()
-            result = engine.predict(
-                quick_text,
-                aspect_method="supervised",
-                sentiment_model="tfidf_logreg",
-            )
-            st.markdown(
-                f"**Aspects detected:** {', '.join(ASPECT_DISPLAY[a] for a in result['detected_aspects']) or 'none above threshold'}"
-            )
-            cols = st.columns(len(result["aspects"]))
-            for col, item in zip(cols, result["aspects"]):
-                with col:
-                    st.markdown(
-                        f'<div class="card"><div class="aspect-title">{item["display"]}</div>'
-                        f'<div style="margin:8px 0;">{badge(item["sentiment"])}</div>'
-                        f'<div class="aspect-sub">confidence {item["confidence"]:.1%}</div>'
-                        f'{probability_bar(item["confidence"], SENTIMENT_COLORS[item["sentiment"]])}'
-                        f"</div>",
-                        unsafe_allow_html=True,
-                    )
-        except Exception as exc:
-            st.error(str(exc))
+        st.markdown(
+            info_card(
+                "lightbulb",
+                "The solution",
+                "This system reads a free-text review, detects the aspects it discusses — "
+                "<b>food, service, price, ambience and overall experience</b> — and predicts the "
+                "polarity of each aspect independently. It combines a transparent topic model "
+                "(pLSA) and TF-ICF lexicon induction with supervised TF-IDF classifiers and a "
+                "GloVe-initialised BiLSTM.",
+                "solution",
+            ),
+            unsafe_allow_html=True,
+        )
 
     st.write("")
-    with st.expander("How the model works in one paragraph"):
-        st.write(
-            "Each review is normalised (lowercase, HTML/URL removal, contraction expansion and "
-            "tokenisation that preserves negation). A one-vs-rest TF-IDF logistic regression "
-            "detects which of the five aspect categories are present. For every detected aspect, "
-            "an aspect-specific classifier predicts negative, neutral or positive sentiment from "
-            "word and character n-grams (or a GloVe-initialised BiLSTM). The pLSA + TF-ICF component "
-            "independently discovers latent topics and induces an aspect lexicon, which serves as an "
-            "unsupervised baseline and as an interpretable view of the corpus."
+    st.markdown(
+        section_header(
+            "System architecture",
+            "A transparent, end-to-end NLP pipeline",
+            "Every stage below is implemented in the repository and evaluated on real data.",
+        ),
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        pipeline_steps(
+            [
+                ("database", "SemEval dataset", "3,041 training + 800 test restaurant reviews.", "indigo"),
+                ("file", "Data loading", "XML annotations parsed into two validated task views.", "blue"),
+                ("cpu", "Preprocessing", "Normalise, expand contractions, preserve negation, tokenise.", "purple"),
+                ("layers", "Topic modelling", "20 latent pLSA topics discovered with EM.", "amber"),
+                ("grid", "Lexicon expansion", "TF-ICF transfers cluster-specific terms to aspects.", "purple"),
+                ("target", "Aspect detection", "TF-IDF word + character features with one-vs-rest LR.", "blue"),
+                ("activity", "Sentiment models", "Per-aspect LR, calibrated SVM and GloVe BiLSTM.", "green"),
+                ("chart", "Evaluation & app", "Test metrics, error analysis and live Streamlit inference.", "red"),
+            ]
+        ),
+        unsafe_allow_html=True,
+    )
+
+    st.write("")
+    st.markdown(
+        section_header(
+            "Capabilities",
+            "What the prototype demonstrates",
+            "A complete NLP workflow, not only a sentiment classifier.",
+        ),
+        unsafe_allow_html=True,
+    )
+    highlights = [
+        ("target", "Aspect-level detection", "Finds the five SemEval aspect categories, including mixed-opinion reviews.", "indigo"),
+        ("activity", "Fine-grained sentiment", "Predicts negative, neutral or positive for each aspect independently.", "green"),
+        ("layers", "Topic modelling", "pLSA reveals latent themes; TF-ICF turns them into an interpretable aspect lexicon.", "purple"),
+        ("chart", "Rigorous evaluation", "Macro-F1, Hamming loss, subset accuracy, confusion matrices and error analysis.", "blue"),
+        ("message", "Interactive analysis", "Analyse a review live, compare models and inspect confidence scores.", "amber"),
+        ("cpu", "End-to-end engineering", "Reproducible training, saved artefacts, automated tests and a polished UI.", "red"),
+    ]
+    for start in range(0, len(highlights), 3):
+        cols = st.columns(3, gap="medium")
+        for col, (icon_name, title, body, tone) in zip(cols, highlights[start : start + 3]):
+            with col:
+                st.markdown(
+                    highlight_card(icon_name, title, body, tone),
+                    unsafe_allow_html=True,
+                )
+
+    st.write("")
+    st.markdown(
+        section_header(
+            "Live demo",
+            "Try the trained model in seconds",
+            "This quick demo uses the same saved artefacts as the full review workspace.",
+        ),
+        unsafe_allow_html=True,
+    )
+    with st.container(border=True):
+        st.markdown(
+            '<div class="panel-title">Quick review analysis</div>'
+            '<p class="panel-sub">Enter a review or keep the multi-aspect example below.</p>',
+            unsafe_allow_html=True,
         )
+        quick_default = (
+            "The pasta was absolutely delicious and the staff were friendly, "
+            "but the music was too loud and the prices are a bit high."
+        )
+        quick_text = st.text_area(
+            "Review text",
+            value=quick_default,
+            height=105,
+            key="overview_input",
+        )
+        run_quick = st.button("Analyse review", type="primary", key="overview_run")
+        if run_quick:
+            try:
+                result = get_engine().predict(
+                    quick_text,
+                    aspect_method="supervised",
+                    sentiment_model="tfidf_logreg",
+                )
+                detected = ", ".join(
+                    ASPECT_DISPLAY[item] for item in result["detected_aspects"]
+                ) or "none above threshold"
+                st.markdown(
+                    f"**Detected aspects:** {html.escape(detected)}"
+                )
+                cols = st.columns(len(result["aspects"]), gap="small")
+                for col, item in zip(cols, result["aspects"]):
+                    with col:
+                        st.markdown(result_card(item), unsafe_allow_html=True)
+                st.caption(
+                    "Open **Analyse Review** for model selection, thresholds, top-k analysis "
+                    "and full class probabilities."
+                )
+            except Exception as exc:
+                st.error(str(exc))
 
 
 # ---------------------------------------------------------------------------
 # Page: Analyse Review
 # ---------------------------------------------------------------------------
 elif page == "Analyse Review":
-    st.title("Analyse a review")
-    st.caption(
-        "Enter a restaurant review. The system detects the aspects it discusses and predicts "
-        "the sentiment for each one."
+    st.markdown(
+        page_header(
+            "Review workspace",
+            "Analyse a review",
+            "Enter a restaurant review. The system detects the aspects it discusses and "
+            "predicts the sentiment for each aspect independently.",
+        ),
+        unsafe_allow_html=True,
     )
 
-    test_sentences = get_test_sentences()
+    test_frame = get_test_sentences()
     examples: List[str] = []
-    if not test_sentences.empty:
-        multi = test_sentences[test_sentences["num_aspects"] >= 2]
-        pool = multi if len(multi) >= 6 else test_sentences
+    if not test_frame.empty:
+        multi = test_frame[test_frame["num_aspects"] >= 2]
+        pool = multi if len(multi) >= 6 else test_frame
         examples = pool.sample(n=min(6, len(pool)), random_state=7)["text"].tolist()
 
     if "review_input" not in st.session_state:
@@ -396,190 +512,182 @@ elif page == "Analyse Review":
     if "analysis_result" not in st.session_state:
         st.session_state["analysis_result"] = None
 
-    left, right = st.columns([1.05, 0.95], gap="large")
+    try:
+        engine_for_list = get_engine()
+        available_models = engine_for_list.available_sentiment_models
+    except Exception as exc:
+        st.error(f"Models are not available: {exc}")
+        st.stop()
+
+    left, right = st.columns([1.02, 0.98], gap="large")
 
     with left:
-        st.markdown('<div class="section-label">Input</div>', unsafe_allow_html=True)
-        if examples:
-            st.caption("Load an example from the held-out test set:")
-            example_cols = st.columns(3)
-            for idx, example in enumerate(examples):
-                with example_cols[idx % 3]:
-                    if st.button(f"Example {idx + 1}", key=f"example_{idx}", width="stretch"):
-                        st.session_state["review_input"] = example
-                        st.session_state["analysis_result"] = None
-                        st.rerun()
+        with st.container(border=True):
+            st.markdown(
+                '<div class="panel-title">Review input</div>'
+                '<p class="panel-sub">Use a real held-out example or write your own review.</p>',
+                unsafe_allow_html=True,
+            )
+            if examples:
+                st.caption("Load an example from the held-out test set")
+                for start in range(0, len(examples), 3):
+                    example_cols = st.columns(3, gap="small")
+                    for offset, example in enumerate(examples[start : start + 3]):
+                        idx = start + offset
+                        with example_cols[offset]:
+                            if st.button(
+                                f"Example {idx + 1}",
+                                key=f"example_{idx}",
+                                width="stretch",
+                            ):
+                                st.session_state["review_input"] = example
+                                st.session_state["analysis_result"] = None
+                                st.rerun()
 
-        text = st.text_area(
-            "Review text",
-            height=190,
-            key="review_input",
-            placeholder="e.g. Great food and friendly staff, but the room was too loud...",
-        )
-
-        with st.expander("Model settings", expanded=True):
-            aspect_method = st.selectbox(
-                "Aspect detection method",
-                ["supervised", "lexicon"],
-                format_func=lambda value: {
-                    "supervised": "Supervised · TF-IDF + one-vs-rest LR",
-                    "lexicon": "Unsupervised baseline · pLSA + TF-ICF lexicon",
-                }[value],
-                help="The unsupervised baseline is weaker but demonstrates what pLSA + TF-ICF learned without labels.",
-            )
-            engine_for_list = get_engine()
-            sentiment_model = st.selectbox(
-                "Sentiment classifier",
-                engine_for_list.available_sentiment_models,
-                index=(
-                    engine_for_list.available_sentiment_models.index("tfidf_logreg")
-                    if "tfidf_logreg" in engine_for_list.available_sentiment_models
-                    else 0
-                ),
-                format_func=lambda value: {
-                    "bilstm": "BiLSTM (GloVe-initialised)",
-                    "tfidf_logreg": "TF-IDF + Logistic Regression",
-                    "tfidf_svm": "TF-IDF + Linear SVM (calibrated)",
-                }.get(value, value),
-            )
-            threshold = st.slider(
-                "Minimum aspect confidence",
-                min_value=0.0,
-                max_value=0.9,
-                value=0.0,
-                step=0.05,
-                help="Per-aspect tuned thresholds are applied automatically; this slider can only make them stricter.",
-            )
-            top_k = st.slider(
-                "Always analyse the top-k aspects (0 = only detected aspects)",
-                min_value=0,
-                max_value=5,
-                value=0,
-                step=1,
+            text = st.text_area(
+                "Review text",
+                height=190,
+                key="review_input",
+                placeholder="e.g. Great food and friendly staff, but the room was too loud...",
             )
 
-        run = st.button("Analyse review", type="primary", width="stretch")
-        st.caption(
-            "Input is validated: empty reviews and reviews with fewer than two words are rejected."
-        )
+            with st.expander("Model settings", expanded=True):
+                aspect_method = st.selectbox(
+                    "Aspect detection method",
+                    ["supervised", "lexicon"],
+                    format_func=lambda value: {
+                        "supervised": "Supervised · TF-IDF + LR",
+                        "lexicon": "Unsupervised · pLSA + TF-ICF",
+                    }[value],
+                    help="The unsupervised baseline is weaker but shows what pLSA + TF-ICF learned without labels.",
+                )
+                sentiment_model = st.selectbox(
+                    "Sentiment classifier",
+                    available_models,
+                    index=(
+                        available_models.index("tfidf_logreg")
+                        if "tfidf_logreg" in available_models
+                        else 0
+                    ),
+                    format_func=lambda value: {
+                        "bilstm": "BiLSTM · GloVe-initialised",
+                        "tfidf_logreg": "TF-IDF + LR · best macro-F1",
+                        "tfidf_svm": "TF-IDF + SVM · calibrated",
+                    }.get(value, value),
+                )
+                threshold = st.slider(
+                    "Minimum aspect confidence",
+                    min_value=0.0,
+                    max_value=0.9,
+                    value=0.0,
+                    step=0.05,
+                    help="Per-aspect tuned thresholds are always applied; this slider can only make them stricter.",
+                )
+                top_k = st.slider(
+                    "Always analyse the top-k aspects",
+                    min_value=0,
+                    max_value=5,
+                    value=0,
+                    step=1,
+                    help="Set to 0 to analyse only aspects that pass their tuned threshold.",
+                )
 
-        if run:
-            try:
-                with st.spinner("Running aspect detection and sentiment classification..."):
-                    result = get_engine().predict(
-                        text,
-                        aspect_method=aspect_method,
-                        sentiment_model=sentiment_model,
-                        threshold=threshold if threshold > 0 else None,
-                        top_k=top_k if top_k > 0 else None,
-                    )
-                st.session_state["analysis_result"] = result
-            except ValueError as exc:
-                st.warning(str(exc))
-                st.session_state["analysis_result"] = None
-            except Exception as exc:  # pragma: no cover - defensive
-                st.error(f"Prediction failed: {exc}")
-                st.session_state["analysis_result"] = None
+            run = st.button("Analyse review", type="primary", width="stretch")
+            st.caption(
+                "Input validation rejects empty reviews and reviews with fewer than two words."
+            )
+
+            if run:
+                try:
+                    with st.spinner("Running aspect detection and sentiment classification..."):
+                        result = get_engine().predict(
+                            text,
+                            aspect_method=aspect_method,
+                            sentiment_model=sentiment_model,
+                            threshold=threshold if threshold > 0 else None,
+                            top_k=top_k if top_k > 0 else None,
+                        )
+                    st.session_state["analysis_result"] = result
+                except ValueError as exc:
+                    st.warning(str(exc))
+                    st.session_state["analysis_result"] = None
+                except Exception as exc:  # pragma: no cover - defensive
+                    st.error(f"Prediction failed: {exc}")
+                    st.session_state["analysis_result"] = None
 
     with right:
-        st.markdown('<div class="section-label">Result</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-kicker">Result</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Model output</div>', unsafe_allow_html=True)
         result = st.session_state.get("analysis_result")
+
         if result is None:
             st.markdown(
-                '<div class="card"><div class="aspect-title">No analysis yet</div>'
-                '<div class="aspect-sub" style="margin-top:6px;">Enter a review and press '
-                "<b>Analyse review</b>. The system will show each aspect, its sentiment and the "
-                "model's confidence.</div></div>",
+                empty_state(
+                    "search",
+                    "No analysis yet",
+                    "Enter a review and press Analyse review. Each detected aspect, its "
+                    "sentiment and the model's confidence will appear here.",
+                ),
                 unsafe_allow_html=True,
             )
         else:
             if result.get("low_confidence"):
                 st.warning(
-                    "No aspect passed the detection threshold. The most likely aspect is shown "
-                    "below, but treat the result as low confidence."
+                    "No aspect passed the detection threshold. The most likely aspect is "
+                    "shown below, but treat the result as low confidence."
                 )
+
             overall = result["overall"]
             st.markdown(
-                f'<div class="card"><div class="section-label">Overall verdict (weighted)</div>'
-                f'<div style="display:flex;align-items:center;gap:14px;margin-top:6px;">'
-                f'<div style="font-size:1.15rem;font-weight:700;color:#0F172A;">{overall["label"].title()}</div>'
-                f"{badge(overall['label'])}"
-                f'<div class="aspect-sub">{overall["confidence"]:.1%} weighted confidence</div></div>'
-                f'<div class="small-note" style="margin-top:8px;">Weighted by aspect-presence probability; '
-                f"it is a summary, not a separately trained classifier.</div></div>",
+                verdict_card(
+                    overall["label"],
+                    overall["confidence"],
+                    "Weighted by aspect-presence probability. This is a display summary, "
+                    "not a separately trained classifier.",
+                ),
                 unsafe_allow_html=True,
             )
-            st.write("")
 
             for item in result["aspects"]:
-                probs = item["probabilities"]
-                st.markdown(
-                    f'<div class="card" style="margin-bottom:12px;">'
-                    f'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">'
-                    f'<div><div class="aspect-title">{item["display"]}</div>'
-                    f'<div class="aspect-sub">aspect presence {item["aspect_probability"]:.1%}</div></div>'
-                    f"<div>{badge(item['sentiment'])}</div></div>"
-                    f'{probability_bar(item["aspect_probability"], "#2563EB")}'
-                    f'<div style="margin-top:12px;"><div class="aspect-sub" style="margin-bottom:5px;">'
-                    f'Sentiment confidence · {item["confidence"]:.1%}</div>'
-                    f'{probability_bar(item["confidence"], SENTIMENT_COLORS[item["sentiment"]], 11)}</div>'
-                    f"</div>",
-                    unsafe_allow_html=True,
-                )
-                with st.expander(f"{item['display']} · class probabilities"):
-                    prob_frame = pd.DataFrame(
-                        {
-                            "sentiment": [label.title() for label in SENTIMENT_LABELS],
-                            "probability": [probs[label] for label in SENTIMENT_LABELS],
-                        }
+                st.markdown(aspect_card_html(item), unsafe_allow_html=True)
+                with st.expander(f"Class probabilities · {item['display']}"):
+                    st.altair_chart(
+                        sentiment_chart(item["probabilities"]),
+                        width="stretch",
                     )
-                    chart = (
-                        alt.Chart(prob_frame)
-                        .mark_bar(cornerRadiusTopRight=6, cornerRadiusBottomRight=6)
-                        .encode(
-                            x=alt.X("probability:Q", scale=alt.Scale(domain=[0, 1]), title="Probability"),
-                            y=alt.Y("sentiment:N", sort=None, title=None),
-                            color=alt.Color(
-                                "sentiment:N",
-                                scale=alt.Scale(
-                                    domain=["Negative", "Neutral", "Positive"],
-                                    range=["#EF4444", "#F59E0B", "#10B981"],
-                                ),
-                                legend=None,
-                            ),
-                            tooltip=["sentiment", alt.Tooltip("probability:Q", format=".3f")],
-                        )
-                        .properties(height=110)
-                    )
-                    st.altair_chart(chart, width="stretch")
 
-            with st.expander("Aspect-presence probabilities (all five aspects)"):
+            with st.expander("Aspect-presence probabilities · all five aspects"):
                 aspect_frame = pd.DataFrame(
                     {
-                        "aspect": [ASPECT_DISPLAY[a] for a in ASPECTS],
-                        "probability": [result["aspect_probabilities"].get(a, 0.0) for a in ASPECTS],
-                        "detected": [
-                            "yes" if a in result["detected_aspects"] else "no" for a in ASPECTS
+                        "Aspect": [ASPECT_DISPLAY[aspect] for aspect in ASPECTS],
+                        "Probability": [
+                            round(result["aspect_probabilities"].get(aspect, 0.0), 4)
+                            for aspect in ASPECTS
+                        ],
+                        "Detected": [
+                            "Yes" if aspect in result["detected_aspects"] else "No"
+                            for aspect in ASPECTS
                         ],
                     }
-                ).sort_values("probability", ascending=False)
-                st.dataframe(
-                    aspect_frame.style.format({"probability": "{:.3f}"}),
-                    width="stretch",
-                    hide_index=True,
-                )
+                ).sort_values("Probability", ascending=False)
+                render_table(aspect_frame)
                 st.bar_chart(
-                    aspect_frame.set_index("aspect")["probability"], height=240, color="#2563EB"
+                    aspect_frame.set_index("Aspect")["Probability"],
+                    height=240,
+                    color="#4338CA",
                 )
                 st.caption(
-                    f"Tuned thresholds: "
-                    + ", ".join(f"{ASPECT_DISPLAY[a]} {result['thresholds'][a]:.2f}" for a in ASPECTS)
+                    "Tuned thresholds · "
+                    + " · ".join(
+                        f"{ASPECT_DISPLAY[aspect]} {result['thresholds'][aspect]:.2f}"
+                        for aspect in ASPECTS
+                    )
                 )
 
-            with st.expander("Preprocessing details"):
-                st.write("**Cleaned text**")
+            with st.expander("Preprocessing and model configuration"):
+                st.markdown("**Cleaned text**")
                 st.code(result["cleaned_text"], language=None)
-                st.write("**Model configuration**")
+                st.markdown("**Configuration used for this prediction**")
                 st.json(
                     {
                         "aspect_method": result["aspect_method"],
@@ -593,7 +701,6 @@ elif page == "Analyse Review":
 # Page: Model Performance
 # ---------------------------------------------------------------------------
 elif page == "Model Performance":
-    st.title("Model performance")
     metrics = get_metrics()
     if not metrics:
         st.error(
@@ -602,46 +709,55 @@ elif page == "Model Performance":
         )
         st.stop()
 
-    test_info = metrics.get("test_set", {})
-    st.caption(
-        f"All numbers below are computed on the official SemEval-2014 test split "
-        f"({test_info.get('sentences', '—')} sentences, {test_info.get('aspect_sentiment_rows', '—')} "
-        f"aspect-sentiment annotations). No test data was used for training or tuning."
+    st.markdown(
+        page_header(
+            "Evaluation dashboard",
+            "Model performance",
+            "Actual results on the official SemEval-2014 test split. No test data was used "
+            "for training or model selection.",
+        ),
+        unsafe_allow_html=True,
     )
 
-    tab1, tab2, tab3 = st.tabs(
+    test_info = metrics.get("test_set", {})
+    st.caption(
+        f"{test_info.get('sentences', '—')} test sentences · "
+        f"{test_info.get('aspect_sentiment_rows', '—')} aspect-sentiment annotations"
+    )
+
+    sentiment = metrics["sentiment"]
+    best_name = max(
+        (name for name in sentiment if name != "majority"),
+        key=lambda name: sentiment[name]["macro_f1"],
+    )
+    best = sentiment[best_name]
+    render_metric_cards(
+        [
+            ("zap", "Best model", MODEL_DISPLAY.get(best_name, best_name), "Selected by macro-F1", "indigo"),
+            ("check", "Accuracy", f"{best['accuracy']:.3f}", "Three-class accuracy", "blue"),
+            ("target", "Macro-F1", f"{best['macro_f1']:.3f}", "Equal weight per class", "green"),
+            ("trending", "Weighted-F1", f"{best['weighted_f1']:.3f}", "Support-weighted", "purple"),
+        ]
+    )
+
+    st.write("")
+    tab_sentiment, tab_aspect, tab_errors = st.tabs(
         ["Sentiment classification", "Aspect detection", "Error analysis"]
     )
 
-    with tab1:
-        sentiment = metrics["sentiment"]
-        best_name = max(
-            (n for n in sentiment if n != "majority"),
-            key=lambda n: sentiment[n]["macro_f1"],
+    with tab_sentiment:
+        st.markdown(
+            section_header(
+                "Model comparison",
+                "Sentiment classification results",
+                "Macro-F1 is emphasised because the neutral class is rare.",
+            ),
+            unsafe_allow_html=True,
         )
-        best = sentiment[best_name]
-        display_names = {
-            "majority": "Majority class",
-            "tfidf_logreg": "TF-IDF + Logistic Regression",
-            "tfidf_svm": "TF-IDF + Linear SVM",
-            "bilstm": "BiLSTM",
-        }
-        cols = st.columns(4)
-        with cols[0]:
-            st.metric("Best model", display_names.get(best_name, best_name))
-        with cols[1]:
-            st.metric("Accuracy", f"{best['accuracy']:.3f}")
-        with cols[2]:
-            st.metric("Macro-F1", f"{best['macro_f1']:.3f}")
-        with cols[3]:
-            st.metric("Weighted-F1", f"{best['weighted_f1']:.3f}")
-
-        st.write("")
-        st.subheader("Model comparison")
-        table = pd.DataFrame(
+        comparison = pd.DataFrame(
             [
                 {
-                    "Model": display_names.get(name, name),
+                    "Model": MODEL_DISPLAY.get(name, name),
                     "Accuracy": round(value["accuracy"], 4),
                     "Macro-F1": round(value["macro_f1"], 4),
                     "Weighted-F1": round(value["weighted_f1"], 4),
@@ -650,52 +766,81 @@ elif page == "Model Performance":
                 for name, value in sentiment.items()
             ]
         ).sort_values("Macro-F1", ascending=False)
-        st.dataframe(table, width="stretch", hide_index=True)
+        render_table(comparison)
 
-        show_figure("model_comparison.png")
-        show_figure("confusion_matrices.png")
-        show_figure("per_aspect_f1.png")
-        show_figure("bilstm_training_curves.png")
+        show_figure(
+            "model_comparison.png",
+            "Accuracy, macro-F1 and weighted-F1 across sentiment models.",
+        )
+        show_figure(
+            "confusion_matrices.png",
+            "Confusion matrices for the majority baseline, TF-IDF models and BiLSTM.",
+        )
+        show_figure(
+            "per_aspect_f1.png",
+            "Per-aspect sentiment macro-F1 for the strongest models.",
+        )
+        show_figure(
+            "bilstm_training_curves.png",
+            "Development macro-F1 by epoch for the five aspect-specific BiLSTMs.",
+        )
 
         report = get_classification_report()
         if report:
-            with st.expander("Classification report (best model)"):
+            with st.expander("Classification report · best model"):
                 st.code(report, language=None)
 
-    with tab2:
+    with tab_aspect:
+        st.markdown(
+            section_header(
+                "Aspect detection",
+                "Supervised detection vs. the unsupervised baseline",
+                "The supervised model learns pragmatic cues that a lexicon cannot encode.",
+            ),
+            unsafe_allow_html=True,
+        )
         detection = metrics["aspect_detection"]
-        display_names = {
-            "tfidf_logreg": "Supervised TF-IDF + LR",
-            "lexicon_plsa_tficf": "pLSA + TF-ICF lexicon (unsupervised)",
-        }
-        rows = []
+        detection_rows = []
         for name, value in detection.items():
-            rows.append(
+            detection_rows.append(
                 {
-                    "Model": display_names.get(name, name),
+                    "Model": MODEL_DISPLAY.get(name, name),
                     "Micro-F1": round(value["micro_f1"], 4),
                     "Macro-F1": round(value["macro_f1"], 4),
                     "Hamming loss": round(value["hamming_loss"], 4),
                     "Subset accuracy": round(value["subset_accuracy"], 4),
                 }
             )
-        st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
-        show_figure("aspect_detection_comparison.png")
-        show_figure("aspect_detection_per_aspect.png")
+        render_table(pd.DataFrame(detection_rows))
 
-        st.subheader("Per-aspect detection quality")
+        show_figure(
+            "aspect_detection_comparison.png",
+            "Aggregate aspect-detection quality for both approaches.",
+        )
+        show_figure(
+            "aspect_detection_per_aspect.png",
+            "Per-aspect detection quality across the five categories.",
+        )
+
+        st.markdown(
+            section_header(
+                "Per-aspect detail",
+                "Where detection succeeds and where it struggles",
+            ),
+            unsafe_allow_html=True,
+        )
         detail_rows = []
         for aspect in ASPECTS:
             detail_rows.append(
                 {
                     "Aspect": ASPECT_DISPLAY[aspect],
-                    "Supervised precision": round(
+                    "Precision": round(
                         detection["tfidf_logreg"]["per_aspect"][aspect]["precision"], 4
                     ),
-                    "Supervised recall": round(
+                    "Recall": round(
                         detection["tfidf_logreg"]["per_aspect"][aspect]["recall"], 4
                     ),
-                    "Supervised F1": round(
+                    "F1": round(
                         detection["tfidf_logreg"]["per_aspect"][aspect]["f1"], 4
                     ),
                     "Lexicon F1": round(
@@ -703,30 +848,43 @@ elif page == "Model Performance":
                     ),
                 }
             )
-        st.dataframe(pd.DataFrame(detail_rows), width="stretch", hide_index=True)
+        render_table(pd.DataFrame(detail_rows))
 
         with st.expander("Why the supervised detector wins"):
             st.write(
                 "The lexicon baseline is fully unsupervised: pLSA discovers 20 latent topics, "
-                "TF-ICF selects cluster-specific terms, and topics are aligned to aspect seeds by "
-                "cosine similarity. It is interpretable and needs no labels, but it cannot learn "
-                "that phrases such as 'we will be back' signal a general (miscellaneous) aspect "
-                "without lexical overlap. The supervised one-vs-rest classifier learns these cues "
-                "from 3,035 labelled sentences, which explains the large gap in macro-F1."
+                "TF-ICF selects cluster-specific terms, and topics are aligned to aspect seeds "
+                "by cosine similarity. It is interpretable and needs no labels, but it cannot "
+                "learn that phrases such as 'we will be back' signal a general judgement without "
+                "lexical overlap. The supervised one-vs-rest classifier learns these cues from "
+                "3,035 labelled sentences, which explains the large gap in macro-F1."
             )
 
-    with tab3:
-        show_figure("error_confidence.png")
+    with tab_errors:
+        st.markdown(
+            section_header(
+                "Qualitative analysis",
+                "The most confident mistakes",
+                "High-confidence errors reveal annotation ambiguity and aspect-specific context.",
+            ),
+            unsafe_allow_html=True,
+        )
+        show_figure(
+            "error_confidence.png",
+            "Confidence distribution for correct predictions and errors.",
+        )
         errors = get_error_analysis()
         if not errors.empty:
-            st.subheader("Most confident mistakes")
-            st.caption(
-                "High-confidence errors reveal annotation ambiguity and aspect-specific context "
-                "that the model misses."
-            )
             view = errors.head(15)[
                 ["text", "aspect", "gold", "predicted", "confidence"]
-            ].rename(
+            ].copy()
+            view["aspect"] = view["aspect"].map(
+                lambda value: ASPECT_DISPLAY.get(value, value)
+            )
+            view["gold"] = view["gold"].str.title()
+            view["predicted"] = view["predicted"].str.title()
+            view["confidence"] = view["confidence"].map(lambda value: f"{value:.3f}")
+            view = view.rename(
                 columns={
                     "text": "Review",
                     "aspect": "Aspect",
@@ -735,56 +893,139 @@ elif page == "Model Performance":
                     "confidence": "Confidence",
                 }
             )
-            st.dataframe(
-                view.style.format({"Confidence": "{:.3f}"}),
-                width="stretch",
-                hide_index=True,
-            )
+            render_table(view)
         else:
-            st.info("No error analysis file found.")
+            st.info("No error analysis file found. Run `python -m scripts.evaluate_all`.")
 
 
 # ---------------------------------------------------------------------------
 # Page: Dataset
 # ---------------------------------------------------------------------------
 elif page == "Dataset":
-    st.title("Dataset")
     stats = get_stats()
     if not stats:
         st.error("Dataset statistics not found. Run `python -m scripts.prepare_data`.")
         st.stop()
 
+    st.markdown(
+        page_header(
+            "Data foundation",
+            "Dataset",
+            "The official SemEval-2014 Task 4 restaurant benchmark, parsed into "
+            "sentence-level and aspect–sentiment views.",
+        ),
+        unsafe_allow_html=True,
+    )
+
     train = stats["splits"]["train"]
     test = stats["splits"]["test"]
-
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Training sentences", f"{train['sentences']:,}")
-    c2.metric("Test sentences", f"{test['sentences']:,}")
-    c3.metric("Training aspect annotations", f"{train['aspect_annotations']:,}")
-    c4.metric("Test aspect annotations", f"{test['aspect_annotations']:,}")
+    render_metric_cards(
+        [
+            ("file", "Training sentences", f"{train['sentences']:,}", "Official training split", "indigo"),
+            ("check", "Test sentences", f"{test['sentences']:,}", "Official gold test split", "blue"),
+            ("layers", "Training annotations", f"{train['aspect_annotations']:,}", "Aspect-category labels", "purple"),
+            ("activity", "Sentiment rows", f"{test['aspect_annotations']:,}", "Test aspect annotations", "green"),
+        ]
+    )
 
     st.write("")
     st.markdown(
-        """
-        <div class="card">
-          <h3>Source</h3>
-          <p><b>SemEval-2014 Task 4: Aspect Based Sentiment Analysis</b> — restaurant domain
-          (Pontiki et al., 2014). Each sentence is annotated with aspect categories
-          (<i>food, service, price, ambience, anecdotes/miscellaneous</i>) and a polarity for each
-          category. The official training and gold test splits are used unchanged; six exact
-          duplicate texts were removed from the training split only.</p>
-          <p style="margin-top:8px;">Data obtained from the public ACL Anthology / SemEval release
-          (mirrored on Hugging Face: <code>alexcadillon/SemEval2014Task4</code>).</p>
-        </div>
-        """,
+        info_card(
+            "database",
+            "Source and provenance",
+            "<b>SemEval-2014 Task 4: Aspect Based Sentiment Analysis</b> — restaurant domain "
+            "(Pontiki et al., 2014). Each sentence is annotated with aspect categories "
+            "(<i>food, service, price, ambience, anecdotes/miscellaneous</i>) and a polarity "
+            "for each category. The official training and gold test splits are used unchanged; "
+            "six exact duplicate training texts were removed from the training split only. "
+            "The <code>conflict</code> polarity is excluded from the three-class sentiment task "
+            "because it is not a coherent polarity class.",
+            "solution",
+        ),
         unsafe_allow_html=True,
     )
 
     st.write("")
-    show_figure("dataset_distribution.png")
-    show_figure("aspect_sentiment_distribution.png")
+    st.markdown(
+        section_header(
+            "Structure",
+            "How the benchmark is organised",
+            "The loader exposes two task views built from the same source annotations.",
+        ),
+        unsafe_allow_html=True,
+    )
+    structure = pd.DataFrame(
+        [
+            (
+                "Sentence view",
+                "text · aspect labels · num_aspects",
+                "One row per review sentence, used for multi-label aspect detection.",
+            ),
+            (
+                "Aspect–sentiment view",
+                "text · aspect · polarity · term start/end",
+                "One row per annotated aspect, used for per-aspect sentiment classification.",
+            ),
+        ],
+        columns=["Task view", "Available fields", "Purpose"],
+    )
+    render_table(structure)
 
-    st.subheader("Class distribution")
+    multi_train = sum(
+        count
+        for key, count in train["aspects_per_sentence"].items()
+        if key != "1"
+    )
+    multi_test = sum(
+        count
+        for key, count in test["aspects_per_sentence"].items()
+        if key != "1"
+    )
+    profile = pd.DataFrame(
+        [
+            (
+                "Mean tokens per sentence",
+                f"{train['mean_tokens']:.2f}",
+                f"{test['mean_tokens']:.2f}",
+            ),
+            (
+                "Longest sentence (tokens)",
+                f"{train['max_tokens']}",
+                f"{test['max_tokens']}",
+            ),
+            (
+                "Sentences with 2+ aspects",
+                f"{multi_train:,}",
+                f"{multi_test:,}",
+            ),
+            (
+                "Duplicate texts removed",
+                f"{train['duplicate_texts']}",
+                f"{test['duplicate_texts']}",
+            ),
+        ],
+        columns=["Corpus statistic", "Train", "Test"],
+    )
+    render_table(profile)
+
+    st.write("")
+    show_figure(
+        "dataset_distribution.png",
+        "Aspect and polarity distributions across the official training and test splits.",
+    )
+    show_figure(
+        "aspect_sentiment_distribution.png",
+        "Aspect-by-sentiment heatmap for the training split.",
+    )
+
+    st.markdown(
+        section_header(
+            "Class distribution",
+            "Sentiment labels by aspect",
+            "Training annotations after excluding conflict polarity.",
+        ),
+        unsafe_allow_html=True,
+    )
     dist_rows = []
     for aspect in ASPECTS:
         row = {"Aspect": ASPECT_DISPLAY[aspect]}
@@ -793,235 +1034,298 @@ elif page == "Dataset":
                 f"{aspect}/{label}", 0
             )
         dist_rows.append(row)
-    st.dataframe(pd.DataFrame(dist_rows), width="stretch", hide_index=True)
-    st.caption(
-        "`conflict` annotations (5.2% of training categories) are excluded from the three-class "
-        "sentiment task because they do not represent a coherent polarity."
-    )
+    render_table(pd.DataFrame(dist_rows))
 
-    st.subheader("Sample records")
+    st.markdown(
+        section_header(
+            "Sample records",
+            "What the model sees",
+            "Random examples from the held-out test set.",
+        ),
+        unsafe_allow_html=True,
+    )
     test_sentiment = get_test_sentiment()
     if not test_sentiment.empty:
         sample = test_sentiment.sample(n=min(10, len(test_sentiment)), random_state=11)
-        st.dataframe(
-            sample[["text", "aspect", "label"]].rename(
+        view = sample[["text", "aspect", "label"]].copy()
+        view["aspect"] = view["aspect"].map(
+            lambda value: ASPECT_DISPLAY.get(value, value)
+        )
+        view["label"] = view["label"].str.title()
+        render_table(
+            view.rename(
                 columns={"text": "Review", "aspect": "Aspect", "label": "Polarity"}
-            ),
-            width="stretch",
-            hide_index=True,
+            )
         )
 
-    with st.expander("Dataset statistics (JSON)"):
+    with st.expander("Dataset statistics · JSON"):
         st.json(stats)
 
     with st.expander("Preprocessing examples"):
-        from src.preprocessing import clean_text
-
         sentence_frame = get_test_sentences()
-        examples = sentence_frame.sample(n=min(4, len(sentence_frame)), random_state=3)["text"].tolist()
-        for example in examples:
-            st.markdown(f"**Raw:** {example}")
-            st.markdown(f"**Cleaned:** `{clean_text(example)}`")
-            st.divider()
+        if not sentence_frame.empty:
+            examples = sentence_frame.sample(
+                n=min(4, len(sentence_frame)), random_state=3
+            )["text"].tolist()
+            from src.preprocessing import clean_text
+
+            for example in examples:
+                with st.container(border=True):
+                    st.markdown(f"**Raw:** {example}")
+                    st.markdown(f"**Cleaned:** `{clean_text(example)}`")
 
 
 # ---------------------------------------------------------------------------
 # Page: Methodology
 # ---------------------------------------------------------------------------
 elif page == "Methodology":
-    st.title("NLP methodology")
-    st.caption(
-        "Every stage below is implemented in the repository; the figures and numbers are "
-        "generated from the actual pipeline."
+    st.markdown(
+        page_header(
+            "Technical approach",
+            "NLP methodology",
+            "Every stage below is implemented in the repository; results and figures are "
+            "generated by the actual pipeline.",
+        ),
+        unsafe_allow_html=True,
     )
 
-    show_figure("workflow.png")
-
-    st.subheader("1 · Task formulation")
-    st.write(
-        "Given a review sentence, the system solves two sub-tasks: (i) **aspect category "
-        "detection**, a five-label multi-label classification problem, and (ii) **aspect "
-        "sentiment classification**, a three-class problem (negative / neutral / positive) for "
-        "every detected aspect. This decomposition follows the SemEval-2014 ABSA formulation and "
-        "mirrors real review behaviour, where one sentence can mention several aspects with "
-        "different polarities."
+    st.markdown(
+        section_header(
+            "Workflow",
+            "From raw XML to live predictions",
+            "The same data and feature pipeline feeds both the unsupervised baseline and the supervised models.",
+        ),
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        timeline(
+            [
+                ("Data collection", "The official SemEval-2014 Task 4 restaurant XML files are parsed and validated into two task views: sentence-level multi-label aspects and aspect–sentiment pairs.", "database"),
+                ("Text preprocessing", "Unicode NFKC normalisation, HTML/URL removal, contraction expansion that preserves negation, lowercasing, emphasis handling and regex tokenisation.", "cpu"),
+                ("Feature extraction", "Word 1–2 gram TF-IDF captures local sentiment and negation; character 3–5 gram TF-IDF absorbs morphology and spelling variation.", "grid"),
+                ("Topic modelling", "pLSA discovers 20 latent topics with EM over a sparse document–term matrix. Topics provide an interpretable view of the corpus.", "layers"),
+                ("Lexicon expansion", "TF-ICF scores cluster-specific terms, aligns topics to aspect seeds by cosine similarity and expands each aspect lexicon.", "zap"),
+                ("Aspect detection", "A one-vs-rest TF-IDF logistic regression predicts five aspect categories; per-aspect thresholds are tuned on a development split.", "target"),
+                ("Sentiment classification", "Per-aspect TF-IDF LR, calibrated linear SVM and GloVe-initialised BiLSTM classifiers predict negative, neutral or positive.", "activity"),
+                ("Evaluation", "Accuracy, macro-F1, weighted-F1, per-aspect F1, Hamming loss, subset accuracy, confusion matrices and error analysis on the official test split.", "chart"),
+            ]
+        ),
+        unsafe_allow_html=True,
     )
 
-    st.subheader("2 · Preprocessing")
-    preprocessing_rows = [
-        ("Unicode normalisation (NFKC)", "Yes", "Canonicalises ligatures and full-width characters."),
-        ("HTML / URL removal", "Yes", "Review text scraped from the web contains markup."),
-        ("Contraction expansion", "Yes", "Preserves negation (`wasn't` → `was not`)."),
-        ("Lowercasing", "Yes", "Reduces vocabulary sparsity."),
-        ("Punctuation handling", "Partial", "Dropped, but `!` becomes an emphasis token."),
-        ("Tokenisation", "Yes", "Regex tokeniser; keeps apostrophes and negators."),
-        ("Stop-word removal", "Only for pLSA", "Removes topical noise; supervised models keep negators."),
-        ("Lemmatisation", "Only for pLSA", "Groups inflections for topic discovery; avoids harming GloVe."),
-        ("Duplicate removal", "Training only", "Six exact duplicate texts removed; test kept intact."),
-    ]
-    st.dataframe(
-        pd.DataFrame(preprocessing_rows, columns=["Technique", "Applied", "Rationale"]),
-        width="stretch",
-        hide_index=True,
+    st.markdown(
+        section_header(
+            "Mathematical foundations",
+            "Topic discovery and cluster-specific weighting",
+        ),
+        unsafe_allow_html=True,
     )
+    eq_left, eq_right = st.columns(2, gap="large")
+    with eq_left:
+        with st.container(border=True):
+            st.markdown("**pLSA · topic responsibility**")
+            st.latex(
+                r"P(z \mid d, w) = \frac{P(w \mid z)\,P(z \mid d)}{\sum_{z'} P(w \mid z')\,P(z' \mid d)}"
+            )
+            st.caption(
+                "EM alternates between topic responsibilities and re-estimation of "
+                "P(w | z) and P(z | d)."
+            )
+    with eq_right:
+        with st.container(border=True):
+            st.markdown("**TF-ICF · cluster specificity**")
+            st.latex(
+                r"\mathrm{tf\text{-}icf}(t, c) = \mathrm{tf}(t, c)\cdot \log\frac{N}{\mathrm{cf}(t)}"
+            )
+            st.caption(
+                "Terms frequent in one cluster but rare elsewhere receive high weights "
+                "and are transferred to the aligned aspect lexicon."
+            )
 
-    st.subheader("3 · Feature extraction")
-    st.write(
-        "The supervised models use a union of **word 1–2 gram TF-IDF** and **character 3–5 gram "
-        "TF-IDF** features. Word n-grams capture negation and local sentiment (`not good`, "
-        "`great food`); character n-grams absorb spelling variation and morphology. Sublinear "
-        "term-frequency scaling prevents very frequent words from dominating. Vectorisers are "
-        "fitted on training text only."
+    st.write("")
+    st.markdown(
+        section_header(
+            "Models",
+            "Model families and configurations",
+        ),
+        unsafe_allow_html=True,
     )
+    model_rows = pd.DataFrame(
+        [
+            ("Majority class", "—", "Lower-bound sentiment baseline: most frequent polarity per aspect."),
+            ("Aspect detector", "TF-IDF + one-vs-rest LR", "C tuned on 15% dev; per-aspect F1 thresholds."),
+            ("Sentiment baseline", "TF-IDF + LR", "Balanced class weights; per-aspect C tuned on dev."),
+            ("Comparison model", "TF-IDF + calibrated SVM", "Sigmoid calibration, three folds, balanced weights."),
+            ("Neural model", "GloVe + BiLSTM", "50-d GloVe, 96 units per direction, mean + max pooling, dropout 0.35."),
+            ("Unsupervised baseline", "pLSA + TF-ICF", "20 topics, lexicon induction, thresholds tuned on dev."),
+        ],
+        columns=["Component", "Model", "Configuration"],
+    )
+    render_table(model_rows)
 
-    st.subheader("4 · pLSA + TF-ICF")
-    st.write(
-        "pLSA models each document as a mixture of latent topics and each topic as a distribution "
-        "over words. EM estimates the parameters:"
+    st.markdown(
+        section_header(
+            "Evaluation protocol",
+            "Honest reporting on a held-out benchmark",
+        ),
+        unsafe_allow_html=True,
     )
-    st.latex(r"P(z \mid d, w) = \frac{P(w \mid z)\,P(z \mid d)}{\sum_{z'} P(w \mid z')\,P(z' \mid d)}")
-    st.write(
-        "Documents are clustered by their dominant topic. TF-ICF then scores terms that are "
-        "frequent inside one cluster but rare elsewhere:"
-    )
-    st.latex(r"\mathrm{tf\text{-}icf}(t, c) = \mathrm{tf}(t, c)\cdot \log\frac{N}{\mathrm{cf}(t)}")
-    st.write(
-        "Aspect seeds are aligned to topics by cosine similarity, and the top TF-ICF terms from "
-        "aligned topics are transferred into the aspect lexicon. This produces an unsupervised "
-        "aspect detector and a human-readable summary of what the corpus talks about."
-    )
-    show_figure("plsa_topics.png")
+    with st.container(border=True):
+        st.markdown(
+            """
+- The official training split is used for fitting.
+- A 15% development split carved out of training is used for C selection, aspect thresholds and LSTM early stopping.
+- The official gold test split is used once for final reporting; no test data is used for fitting or tuning.
+- Metrics: accuracy, macro-F1, weighted-F1, per-aspect F1, micro/macro-F1, Hamming loss, subset accuracy and confusion matrices.
+- Macro-F1 is emphasised because the neutral class is rare.
+            """
+        )
 
-    st.subheader("5 · Models")
-    model_rows = [
-        ("Majority class", "—", "Lower-bound baseline: predicts the most frequent polarity per aspect."),
-        ("Aspect detector", "TF-IDF + one-vs-rest logistic regression", "C tuned on a 15% dev split; per-aspect thresholds tuned for F1."),
-        ("Baseline sentiment", "TF-IDF + logistic regression", "C tuned per aspect on the dev split; balanced class weights."),
-        ("Comparison sentiment", "TF-IDF + calibrated linear SVM", "Sigmoid calibration on three folds; balanced class weights."),
-        ("Neural sentiment", "GloVe-initialised BiLSTM", "50-d GloVe, 96 units per direction, masked mean + max pooling, dropout 0.35, early stopping on dev macro-F1."),
-        ("Unsupervised aspect baseline", "pLSA (20 topics) + TF-ICF lexicon", "Thresholds tuned on dev; no labels used for lexicon induction."),
-    ]
-    st.dataframe(
-        pd.DataFrame(model_rows, columns=["Component", "Model", "Configuration"]),
-        width="stretch",
-        hide_index=True,
+    show_figure(
+        "architecture.png",
+        "Implemented system architecture. Each block corresponds to code in the repository.",
     )
-
-    st.subheader("6 · Evaluation protocol")
-    st.write(
-        "The official training split is used for fitting. A 15% development split carved out of "
-        "training is used for C selection, aspect thresholds and LSTM early stopping. The official "
-        "gold test split is used once for final reporting. Metrics: accuracy, macro-F1, weighted-F1, "
-        "per-aspect F1, micro/macro-F1 for aspect detection, Hamming loss, subset accuracy and "
-        "confusion matrices. Macro-F1 is emphasised because the neutral class is rare."
+    show_figure(
+        "plsa_topics.png",
+        "Top TF-ICF terms for a selection of the discovered pLSA topics.",
     )
-    show_figure("architecture.png")
 
 
 # ---------------------------------------------------------------------------
 # Page: About
 # ---------------------------------------------------------------------------
 else:
-    st.title("About the project")
     st.markdown(
-        """
-        <div class="card">
-          <h3>Objectives</h3>
-          <p>1. Build a complete, reproducible ABSA pipeline for restaurant reviews.<br>
-          2. Compare an interpretable topic-model/lexicon approach with supervised classifiers
-          and a neural model.<br>
-          3. Evaluate aspect detection and aspect-specific sentiment with standard metrics.<br>
-          4. Deliver an interactive demonstration that uses the trained models — no hard-coded
-          predictions.</p>
-        </div>
-        """,
+        page_header(
+            "Project information",
+            "About the project",
+            "A reproducible NLP coursework project combining topic modelling, classical "
+            "text classification and neural sequence modelling.",
+        ),
         unsafe_allow_html=True,
     )
 
-    st.write("")
-    c1, c2 = st.columns(2)
-    with c1:
-        st.subheader("Technology stack")
+    left, right = st.columns(2, gap="large")
+    with left:
         st.markdown(
-            """
-            - **Python 3.11**, NumPy, pandas
-            - **scikit-learn** — TF-IDF, logistic regression, linear SVM, metrics
-            - **PyTorch** — BiLSTM classifier
-            - **NLTK** — stop-words and WordNet lemmatisation (pLSA only)
-            - **Matplotlib** — figures
-            - **Streamlit + Altair** — application
-            - **pytest** — automated tests
-            """
+            info_card(
+                "book",
+                "Project overview",
+                "This project implements aspect-based sentiment analysis for restaurant reviews "
+                "on the official SemEval-2014 Task 4 benchmark. It detects five aspect categories "
+                "and predicts negative, neutral or positive sentiment for each one. The system "
+                "compares an unsupervised pLSA + TF-ICF pipeline with supervised TF-IDF models "
+                "and a GloVe-initialised BiLSTM.",
+                "problem",
+            ),
+            unsafe_allow_html=True,
         )
-    with c2:
-        st.subheader("Repository layout")
-        st.code(
-            """app.py                  Streamlit application
-src/
-  data_loader.py        SemEval XML → CSV views
-  preprocessing.py      normalisation and tokenisation
-  features.py           TF-IDF feature union
-  plsa.py               EM-based pLSA
-  tf_icf.py             TF-ICF weighting
-  aspect_lexicon.py     lexicon induction + baseline
-  lstm_model.py         BiLSTM training/inference
-  train.py              training routines
-  evaluate.py           metrics
-  predict.py            inference engine
-scripts/
-  prepare_data.py       build processed datasets
-  train_all.py          train every component
-  evaluate_all.py       test-set evaluation
-  generate_figures.py   report figures
-tests/                  pytest suite""",
-            language=None,
+    with right:
+        st.markdown(
+            info_card(
+                "shield",
+                "Academic purpose",
+                "The project demonstrates the full NLP lifecycle: data preparation, "
+                "preprocessing, feature engineering, statistical topic modelling, supervised "
+                "and neural classification, rigorous evaluation, error analysis and interactive "
+                "deployment. Results are reported honestly, including cases where the neural "
+                "model does not beat a strong classical baseline.",
+                "solution",
+            ),
+            unsafe_allow_html=True,
         )
 
-    st.subheader("Limitations")
+    st.write("")
     st.markdown(
-        """
-        - **Category-level supervision.** The model predicts aspect categories and polarity; it
-          does not extract the exact opinion target span (e.g. “the *truffle pasta* was divine”).
-        - **Domain and language.** Trained on English restaurant reviews from SemEval-2014;
-          performance on hotels, electronics or other languages is not established.
-        - **Neutral class.** Neutral is rare and semantically fuzzy, so macro-F1 is noticeably
-          lower than accuracy. The majority baseline cannot predict neutral at all.
-        - **BiLSTM data efficiency.** With ~3.5k annotated aspect-sentiment rows, TF-IDF
-          baselines remain competitive; the BiLSTM is hurt by limited data and 50-d embeddings.
-        - **Annotator ambiguity.** SemEval’s `conflict` label and subjective sentences create
-          irreducible errors, visible in the error analysis.
-        - **Lexicon baseline.** pLSA + TF-ICF is unsupervised and interpretable but cannot learn
-          pragmatic cues; it is included for comparison, not as the production detector.
-        """
+        section_header(
+            "Technology",
+            "Stack and objectives",
+        ),
+        unsafe_allow_html=True,
     )
+    tech_left, tech_right = st.columns(2, gap="large")
+    with tech_left:
+        with st.container(border=True):
+            st.markdown("**Technology stack**")
+            st.markdown(
+                """
+- **Python 3.11**, NumPy and pandas
+- **scikit-learn** — TF-IDF, logistic regression, linear SVM, metrics
+- **PyTorch** — aspect-specific BiLSTM classifiers
+- **NLTK** — stop-words and WordNet lemmatisation for pLSA
+- **Matplotlib** — evaluation and architecture figures
+- **Streamlit + Altair** — interactive application
+- **pytest** — automated test suite
+                """
+            )
+    with tech_right:
+        with st.container(border=True):
+            st.markdown("**Project objectives**")
+            st.markdown(
+                """
+- Build a complete, reproducible ABSA pipeline.
+- Compare interpretable topic/lexicon methods with supervised and neural models.
+- Evaluate both aspect detection and aspect-specific sentiment.
+- Package the trained system in a polished, usable application.
+- Document limitations and failure modes honestly.
+                """
+            )
 
-    st.subheader("Future work")
+    st.write("")
     st.markdown(
-        """
-        - Aspect-term extraction with BIO tagging or span-based models.
-        - Fine-tune a transformer (e.g. RoBERTa) if GPU resources are available.
-        - Multi-domain and multilingual evaluation.
-        - Ordinal modelling of polarity and confidence calibration.
-        - Active learning to reduce annotation cost.
-        """
+        section_header(
+            "Limitations and future scope",
+            "Where the prototype can improve",
+        ),
+        unsafe_allow_html=True,
     )
+    limit_left, limit_right = st.columns(2, gap="large")
+    with limit_left:
+        with st.container(border=True):
+            st.markdown("**Limitations**")
+            st.markdown(
+                """
+- **Category-level, not span-level:** the system does not extract the exact opinion target.
+- **Domain and language:** trained on English restaurant reviews only.
+- **Neutral class:** rare and semantically fuzzy, so macro-F1 is much lower than accuracy.
+- **Aspect leakage:** whole-sentence classifiers can confuse polarities across aspects.
+- **Pragmatics:** sarcasm, conditionals and long-range negation remain difficult.
+- **BiLSTM data efficiency:** ~3.5k aspect–sentiment rows limit the neural model.
+                """
+            )
+    with limit_right:
+        with st.container(border=True):
+            st.markdown("**Future scope**")
+            st.markdown(
+                """
+- Aspect-term extraction with BIO tagging or span-based models.
+- Transformer fine-tuning (e.g. RoBERTa) with GPU resources.
+- Aspect-aware attention or masking to reduce leakage.
+- Multi-domain and multilingual evaluation.
+- Better confidence calibration and ordinal polarity modelling.
+- Active learning to reduce annotation cost.
+                """
+            )
 
-    st.subheader("References")
+    st.write("")
+    st.markdown(
+        section_header(
+            "References",
+            "Selected sources",
+        ),
+        unsafe_allow_html=True,
+    )
     st.markdown(
         """
-        1. Pontiki, M., Galanis, D., Pavlopoulos, J., Papageorgiou, H., Androutsopoulos, I., &
-           Manandhar, S. (2014). *SemEval-2014 Task 4: Aspect Based Sentiment Analysis.*
-           Proceedings of SemEval 2014, pp. 27–35. https://aclanthology.org/S14-2004
-        2. Hofmann, T. (1999). *Probabilistic Latent Semantic Analysis.* Proceedings of UAI 1999.
-        3. Pennington, J., Socher, R., & Manning, C. D. (2014). *GloVe: Global Vectors for Word
-           Representation.* Proceedings of EMNLP 2014.
-        4. Hochreiter, S., & Schmidhuber, J. (1997). *Long Short-Term Memory.* Neural Computation.
-        5. Joachims, T. (1998). *Text Categorization with Support Vector Machines.* ECML 1998.
-        6. This project extends the open-source repository
-           `wiqilee/absa-plsa-tficf-lstm` (MIT licence).
+1. Pontiki, M., Galanis, D., Pavlopoulos, J., Papageorgiou, H., Androutsopoulos, I., & Manandhar, S. (2014). *SemEval-2014 Task 4: Aspect Based Sentiment Analysis.* SemEval 2014, pp. 27–35. <https://aclanthology.org/S14-2004>
+2. Hofmann, T. (1999). *Probabilistic Latent Semantic Analysis.* UAI 1999.
+3. Pennington, J., Socher, R., & Manning, C. D. (2014). *GloVe: Global Vectors for Word Representation.* EMNLP 2014.
+4. Hochreiter, S., & Schmidhuber, J. (1997). *Long Short-Term Memory.* Neural Computation, 9(8), 1735–1780.
+5. Joachims, T. (1998). *Text Categorization with Support Vector Machines.* ECML 1998.
+6. Original repository: `wiqilee/absa-plsa-tficf-lstm` (MIT licence).
         """
     )
     st.caption(
-        "Built for an NLP coursework submission. Results are generated by the scripts in "
-        "`scripts/` and stored under `outputs/`."
+        "Built for an NLP coursework submission. Figures and metrics are generated by the "
+        "scripts under `scripts/` and stored under `outputs/`."
     )

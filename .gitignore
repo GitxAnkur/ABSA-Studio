@@ -18,7 +18,7 @@ data/external/*.zip
 data/external/nltk_data/
 
 # Streamlit / pytest caches
-.streamlit/
+.streamlit/secrets.toml
 .pytest_cache/
 .coverage
 htmlcov/
