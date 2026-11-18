@@ -963,7 +963,7 @@ elif page == "Dataset":
             ),
             (
                 "Aspect–sentiment view",
-                "text · aspect · polarity · term start/end",
+                "text · aspect · label · label_id",
                 "One row per annotated aspect, used for per-aspect sentiment classification.",
             ),
         ],
