@@ -442,7 +442,7 @@ The BiLSTM is slightly better on service, ambience and miscellaneous, but worse 
 
 *Figure 8. Development macro-F1 by epoch for the five aspect-specific BiLSTMs.*
 
-Training curves show clear overfitting after the selected epoch, especially for food and miscellaneous: training loss continues to fall while dev macro-F1 plateaus or declines. Early stopping and full-subset refitting mitigate this, but the fundamental limitation is data size. The model has roughly 200k parameters and fewer than 1,200 training rows per aspect.
+Training curves show clear overfitting after the selected epoch, especially for food and miscellaneous: training loss continues to fall while dev macro-F1 plateaus or declines. Early stopping and full-subset refitting mitigate this, but the fundamental limitation is data size. The model has roughly 370k parameters and fewer than 1,200 training rows per aspect.
 
 ### 6.5 Comparison and discussion
 
@@ -505,7 +505,7 @@ The pLSA + TF-ICF pipeline discovers coherent topics, but topic clusters do not 
 
 Three factors explain the result:
 
-* **Data size.** Roughly 3.5k aspect–sentiment rows, split across five aspects, are insufficient for a 200k-parameter model to generalise better than a sparse linear model.
+* **Data size.** Roughly 3.5k aspect–sentiment rows, split across five aspects, are insufficient for a 370k-parameter model to generalise better than a sparse linear model.
 * **Embedding quality.** GloVe 6B 50-d is small. The vocabulary coverage is high (92.38%), but 50 dimensions limit the representation of nuanced sentiment.
 * **Aspect focus.** The BiLSTM reads the whole sentence for every aspect. Without attention or aspect-term masking, it cannot reliably focus on the relevant clause. TF-IDF has the same limitation, but its lower capacity and n-gram weighting make it less prone to confident leakage.
 
