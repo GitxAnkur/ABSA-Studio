@@ -1,0 +1,2317 @@
+{
+  "method": "pLSA + TF-ICF aspect lexicon induction",
+  "n_topics": 20,
+  "n_documents": 2579,
+  "vocabulary_size": 1159,
+  "topics": {
+    "6": [
+      "reading",
+      "went",
+      "9",
+      "19",
+      "30",
+      "read",
+      "girlfriend",
+      "two",
+      "valentine",
+      "split",
+      "dont",
+      "afternoon",
+      "favorite",
+      "review",
+      "people",
+      "bite",
+      "treated",
+      "rudely",
+      "hurry",
+      "thursday",
+      "office",
+      "perhaps",
+      "3",
+      "three",
+      "meat",
+      "crowd",
+      "tiny",
+      "birthday",
+      "lunch",
+      "five"
+    ],
+    "18": [
+      "chocolate",
+      "filet",
+      "tuna",
+      "shrimp",
+      "tender",
+      "pasta",
+      "spicy",
+      "pudding",
+      "gelato",
+      "tempura",
+      "mignon",
+      "roll",
+      "appetizer",
+      "complimentary",
+      "cake",
+      "salmon",
+      "world",
+      "homemade",
+      "wow",
+      "calamari",
+      "effort",
+      "bass",
+      "dessert",
+      "main",
+      "cucumber",
+      "lasagna",
+      "crabmeat",
+      "perfectly",
+      "nori",
+      "espresso"
+    ],
+    "1": [
+      "dim",
+      "sum",
+      "lived",
+      "similar",
+      "hipster",
+      "bathroom",
+      "bud",
+      "found",
+      "cozy",
+      "nyc",
+      "area",
+      "thai",
+      "lover",
+      "seemed",
+      "hidden",
+      "spot",
+      "decor",
+      "chinese",
+      "capable",
+      "admittedly",
+      "chain",
+      "eatery",
+      "certain",
+      "year",
+      "tried",
+      "rest",
+      "far",
+      "taste",
+      "indian",
+      "many"
+    ],
+    "11": [
+      "york",
+      "till",
+      "loud",
+      "friendly",
+      "new",
+      "hesitate",
+      "enter",
+      "8pm",
+      "rosa",
+      "quickly",
+      "prompt",
+      "prepared",
+      "feeling",
+      "rude",
+      "every",
+      "right",
+      "freshness",
+      "help",
+      "fresh",
+      "favorite",
+      "staff",
+      "bar",
+      "big",
+      "door",
+      "fast",
+      "behind",
+      "lady",
+      "hole",
+      "lucky",
+      "satisfied"
+    ],
+    "19": [
+      "understand",
+      "vegetarian",
+      "upper",
+      "disappointed",
+      "east",
+      "everytime",
+      "side",
+      "believe",
+      "wrong",
+      "definately",
+      "hype",
+      "bisque",
+      "bad",
+      "live",
+      "lobster",
+      "rush",
+      "someone",
+      "non",
+      "relatively",
+      "buy",
+      "planet",
+      "stick",
+      "west",
+      "rate",
+      "tamarind",
+      "smooth",
+      "hey",
+      "unless",
+      "amazingly",
+      "volare"
+    ],
+    "7": [
+      "chance",
+      "soon",
+      "dessert",
+      "packed",
+      "refill",
+      "waitstaff",
+      "sitting",
+      "watching",
+      "ambiance",
+      "found",
+      "classy",
+      "attentive",
+      "accomodating",
+      "still",
+      "return",
+      "small",
+      "garden",
+      "offered",
+      "ended",
+      "including",
+      "first",
+      "emilio",
+      "greeting",
+      "feat",
+      "overbearing",
+      "yet",
+      "area",
+      "reason",
+      "helpful",
+      "busy"
+    ],
+    "0": [
+      "worker",
+      "selection",
+      "list",
+      "amazing",
+      "wine",
+      "extensive",
+      "jimmy's",
+      "waste",
+      "bronx",
+      "co",
+      "everything",
+      "artisanal",
+      "listed",
+      "ignore",
+      "calorie",
+      "visited",
+      "talk",
+      "interesting",
+      "comfortable",
+      "glass",
+      "made",
+      "williamsburg",
+      "fondue",
+      "priced",
+      "sat",
+      "cheese",
+      "month",
+      "reasonably",
+      "consistent",
+      "incredibly"
+    ],
+    "9": [
+      "saturday",
+      "away",
+      "line",
+      "high",
+      "6th",
+      "everyone",
+      "walked",
+      "tiny",
+      "busy",
+      "stay",
+      "located",
+      "counter",
+      "girl",
+      "half",
+      "room",
+      "work",
+      "recent",
+      "upstairs",
+      "odd",
+      "ceiling",
+      "check",
+      "customer",
+      "crowded",
+      "scene",
+      "finally",
+      "regularly",
+      "bun",
+      "tuesday",
+      "together",
+      "promptly"
+    ],
+    "3": [
+      "reasonably",
+      "dress",
+      "cost",
+      "overrated",
+      "anyone",
+      "plenty",
+      "avoid",
+      "strip",
+      "guy",
+      "priced",
+      "downside",
+      "regret",
+      "code",
+      "glad",
+      "katz's",
+      "inexpensive",
+      "ordering",
+      "classic",
+      "heard",
+      "rare",
+      "disappointing",
+      "sorry",
+      "tuk",
+      "bo",
+      "poivre",
+      "au",
+      "steakhouse",
+      "relatively",
+      "steak",
+      "awesome"
+    ],
+    "10": [
+      "large",
+      "checked",
+      "disapointed",
+      "bill",
+      "vegetable",
+      "lamb",
+      "tea",
+      "vegetarian",
+      "ice",
+      "naan",
+      "score",
+      "forgot",
+      "trying",
+      "enjoyed",
+      "portion",
+      "buck",
+      "salmon",
+      "left",
+      "seems",
+      "eat",
+      "end",
+      "topping",
+      "sweet",
+      "entire",
+      "choose",
+      "surprise",
+      "20",
+      "actually",
+      "small",
+      "order"
+    ],
+    "2": [
+      "highly",
+      "recommended",
+      "theatre",
+      "meeting",
+      "quiet",
+      "recommend",
+      "bone",
+      "ordered",
+      "jazz",
+      "pre",
+      "anyone",
+      "group",
+      "setting",
+      "tho",
+      "2nd",
+      "gave",
+      "small",
+      "term",
+      "section",
+      "host",
+      "orsay",
+      "visited",
+      "cooking",
+      "intimate",
+      "easy",
+      "date",
+      "dark",
+      "doubt",
+      "sichuan",
+      "casual"
+    ],
+    "17": [
+      "thai",
+      "cuisine",
+      "noodle",
+      "usual",
+      "sauce",
+      "pay",
+      "cooked",
+      "chicken",
+      "lamb",
+      "watery",
+      "authentic",
+      "curry",
+      "bread",
+      "vegetable",
+      "presented",
+      "offering",
+      "oily",
+      "stick",
+      "done",
+      "beef",
+      "waitress",
+      "rice",
+      "bland",
+      "moderately",
+      "weird",
+      "lemon",
+      "grass",
+      "match",
+      "dimsum",
+      "crust"
+    ],
+    "4": [
+      "trip",
+      "leave",
+      "satisfied",
+      "change",
+      "melt",
+      "feeling",
+      "minute",
+      "chicken",
+      "else",
+      "happened",
+      "tiramisu",
+      "west",
+      "tikka",
+      "roast",
+      "memorable",
+      "phone",
+      "hungry",
+      "head",
+      "sister",
+      "masala",
+      "opening",
+      "maitre",
+      "cake",
+      "sauce",
+      "black",
+      "cafe",
+      "stop",
+      "four",
+      "egg",
+      "trying"
+    ],
+    "13": [
+      "fixe",
+      "prix",
+      "reasonable",
+      "friendly",
+      "quality",
+      "popular",
+      "aside",
+      "provided",
+      "chart",
+      "open",
+      "house",
+      "sooo",
+      "hope",
+      "moderate",
+      "nevertheless",
+      "pre",
+      "option",
+      "sea",
+      "server",
+      "attractive",
+      "efficient",
+      "poorly",
+      "turnover",
+      "subpar",
+      "indeed",
+      "written",
+      "attentive",
+      "fresh",
+      "offer",
+      "sliced"
+    ],
+    "8": [
+      "bagel",
+      "dining",
+      "ever",
+      "hour",
+      "break",
+      "horrible",
+      "es",
+      "alain",
+      "bank",
+      "fine",
+      "favorite",
+      "keep",
+      "quality",
+      "coming",
+      "ducasse",
+      "trang",
+      "nha",
+      "definetly",
+      "fedeli",
+      "waited",
+      "definitely",
+      "visit",
+      "end",
+      "since",
+      "general",
+      "unlimited",
+      "hundred",
+      "deserves",
+      "alot",
+      "lacking"
+    ],
+    "15": [
+      "fusion",
+      "noisy",
+      "waiting",
+      "asian",
+      "outdoor",
+      "pleasantly",
+      "appears",
+      "surprised",
+      "money",
+      "type",
+      "save",
+      "expensive",
+      "besides",
+      "changed",
+      "literally",
+      "crowded",
+      "next",
+      "ago",
+      "seating",
+      "classical",
+      "lobby",
+      "hosting",
+      "stumbled",
+      "stand",
+      "week",
+      "still",
+      "french",
+      "dark",
+      "open",
+      "attractive"
+    ],
+    "12": [
+      "loved",
+      "paris",
+      "corner",
+      "actor",
+      "ballato's",
+      "around",
+      "sit",
+      "brewery",
+      "heartland",
+      "pie",
+      "knew",
+      "show",
+      "home",
+      "joint",
+      "obviously",
+      "napoli",
+      "son",
+      "cheeseburger",
+      "nightmare",
+      "far",
+      "enjoyed",
+      "take",
+      "bartender",
+      "see",
+      "consistently",
+      "liked",
+      "guest",
+      "felt",
+      "weather",
+      "attention"
+    ],
+    "16": [
+      "modern",
+      "soggy",
+      "plain",
+      "awsome",
+      "nothing",
+      "charge",
+      "sleek",
+      "unique",
+      "minute",
+      "mid",
+      "promptly",
+      "location",
+      "20",
+      "expected",
+      "delivered",
+      "pasta",
+      "favor",
+      "totally",
+      "promised",
+      "hurt",
+      "waiter",
+      "served",
+      "call",
+      "reservation",
+      "awful",
+      "slice",
+      "later",
+      "amma",
+      "particularly",
+      "wallet"
+    ],
+    "5": [
+      "4",
+      "lime",
+      "inside",
+      "dissappointed",
+      "asked",
+      "impressed",
+      "twice",
+      "spectacular",
+      "45",
+      "naples",
+      "number",
+      "ice",
+      "thoroughly",
+      "3",
+      "wrong",
+      "5",
+      "25",
+      "buck",
+      "trouble",
+      "larger",
+      "taking",
+      "slightly",
+      "cramped",
+      "pastrami",
+      "getting",
+      "table",
+      "order",
+      "per",
+      "dim",
+      "sum"
+    ],
+    "14": [
+      "friendly",
+      "prompt",
+      "outstanding",
+      "impeccable",
+      "owner",
+      "relaxed",
+      "wonderful",
+      "eats",
+      "exceptional",
+      "setting",
+      "love",
+      "smile",
+      "pay",
+      "casual",
+      "cheap",
+      "atmosphere",
+      "slow",
+      "personable",
+      "class",
+      "fresca",
+      "add",
+      "fantastic",
+      "ambience",
+      "dollar",
+      "previous",
+      "guy",
+      "la",
+      "sometimes",
+      "1st",
+      "saul"
+    ]
+  },
+  "aspect_topic_similarity": {
+    "food": {
+      "0": 0.133647,
+      "1": 0.01189,
+      "2": 0.030279,
+      "3": 0.003497,
+      "4": 0.073211,
+      "5": 0.017683,
+      "6": 0.048437,
+      "7": 0.069087,
+      "8": 0.013862,
+      "9": 0.01296,
+      "10": 0.123579,
+      "11": 0.084095,
+      "12": 0.164513,
+      "13": 0.051828,
+      "14": 0.048365,
+      "15": 0.000177,
+      "16": 0.090654,
+      "17": 0.219217,
+      "18": 0.204878,
+      "19": 0.008664
+    },
+    "service": {
+      "0": 0.012187,
+      "1": 0.003642,
+      "2": 0.027125,
+      "3": 0.002711,
+      "4": 0.011611,
+      "5": 0.056567,
+      "6": 0.010954,
+      "7": 0.080496,
+      "8": 0.002296,
+      "9": 0.06683,
+      "10": 0.062943,
+      "11": 0.101929,
+      "12": 0.013217,
+      "13": 0.031423,
+      "14": 0.126714,
+      "15": 0.008435,
+      "16": 0.087053,
+      "17": 0.012795,
+      "18": 0.00684,
+      "19": 0.0
+    },
+    "price": {
+      "0": 0.006532,
+      "1": 1e-06,
+      "2": 0.003945,
+      "3": 0.012666,
+      "4": 0.078886,
+      "5": 0.01015,
+      "6": 7e-06,
+      "7": 0.02728,
+      "8": 0.0,
+      "9": 0.011665,
+      "10": 0.029341,
+      "11": 0.001508,
+      "12": 5e-06,
+      "13": 0.095287,
+      "14": 0.019896,
+      "15": 0.117152,
+      "16": 0.0106,
+      "17": 0.008068,
+      "18": 0.013751,
+      "19": 0.013673
+    },
+    "ambience": {
+      "0": 0.024149,
+      "1": 0.026456,
+      "2": 0.023999,
+      "3": 0.002733,
+      "4": 0.018276,
+      "5": 0.02065,
+      "6": 0.006824,
+      "7": 0.074147,
+      "8": 0.016216,
+      "9": 0.04702,
+      "10": 0.048516,
+      "11": 0.0524,
+      "12": 0.034147,
+      "13": 0.000661,
+      "14": 0.033684,
+      "15": 0.064674,
+      "16": 0.002325,
+      "17": 0.008186,
+      "18": 0.023323,
+      "19": 0.0
+    },
+    "miscellaneous": {
+      "0": 0.0991,
+      "1": 0.197655,
+      "2": 0.088782,
+      "3": 0.189372,
+      "4": 0.070657,
+      "5": 0.0,
+      "6": 0.015387,
+      "7": 0.033411,
+      "8": 0.166677,
+      "9": 0.005806,
+      "10": 0.059646,
+      "11": 0.012953,
+      "12": 0.006191,
+      "13": 0.149485,
+      "14": 0.170228,
+      "15": 0.067098,
+      "16": 0.05764,
+      "17": 0.059079,
+      "18": 0.030648,
+      "19": 0.022652
+    }
+  },
+  "aspects": {
+    "food": {
+      "seed_terms": [
+        "appetizer",
+        "beef",
+        "beer",
+        "bland",
+        "bread",
+        "breakfast",
+        "brunch",
+        "burger",
+        "cake",
+        "cheese",
+        "chicken",
+        "chocolate",
+        "cocktail",
+        "coffee",
+        "cooked",
+        "cream",
+        "curry",
+        "delicious",
+        "dessert",
+        "dinner",
+        "dish",
+        "drink",
+        "egg",
+        "fish",
+        "flavor",
+        "flavour",
+        "food",
+        "fresh",
+        "fry",
+        "gluten",
+        "grill",
+        "grilled",
+        "ice",
+        "ingredient",
+        "juice",
+        "lunch",
+        "meal",
+        "menu",
+        "noodle",
+        "pancake",
+        "pasta",
+        "pizza",
+        "plate",
+        "pork",
+        "portion",
+        "rice",
+        "salad",
+        "salty",
+        "sandwich",
+        "sauce",
+        "seafood",
+        "seasoning",
+        "soda",
+        "soup",
+        "spicy",
+        "starter",
+        "steak",
+        "sushi",
+        "sweet",
+        "taste",
+        "tasty",
+        "tea",
+        "vegan",
+        "vegetarian",
+        "water",
+        "wine"
+      ],
+      "expanded_terms": [
+        {
+          "term": "thai",
+          "weight": 4.286562
+        },
+        {
+          "term": "filet",
+          "weight": 3.068797
+        },
+        {
+          "term": "cuisine",
+          "weight": 3.03899
+        },
+        {
+          "term": "lamb",
+          "weight": 3.017181
+        },
+        {
+          "term": "tuna",
+          "weight": 2.840211
+        },
+        {
+          "term": "usual",
+          "weight": 2.626859
+        },
+        {
+          "term": "vegetable",
+          "weight": 2.6013
+        },
+        {
+          "term": "shrimp",
+          "weight": 2.466675
+        },
+        {
+          "term": "tender",
+          "weight": 2.455038
+        },
+        {
+          "term": "pay",
+          "weight": 2.428259
+        },
+        {
+          "term": "worker",
+          "weight": 2.402224
+        },
+        {
+          "term": "salmon",
+          "weight": 2.258046
+        },
+        {
+          "term": "watery",
+          "weight": 1.970144
+        },
+        {
+          "term": "authentic",
+          "weight": 1.965839
+        },
+        {
+          "term": "loved",
+          "weight": 1.853417
+        },
+        {
+          "term": "pudding",
+          "weight": 1.841278
+        },
+        {
+          "term": "gelato",
+          "weight": 1.841278
+        },
+        {
+          "term": "tempura",
+          "weight": 1.841278
+        },
+        {
+          "term": "mignon",
+          "weight": 1.841278
+        },
+        {
+          "term": "selection",
+          "weight": 1.823973
+        },
+        {
+          "term": "large",
+          "weight": 1.816306
+        },
+        {
+          "term": "friendly",
+          "weight": 1.765088
+        },
+        {
+          "term": "roll",
+          "weight": 1.704127
+        },
+        {
+          "term": "complimentary",
+          "weight": 1.648692
+        },
+        {
+          "term": "enjoyed",
+          "weight": 1.641965
+        },
+        {
+          "term": "list",
+          "weight": 1.591974
+        },
+        {
+          "term": "amazing",
+          "weight": 1.57483
+        },
+        {
+          "term": "stick",
+          "weight": 1.554193
+        },
+        {
+          "term": "paris",
+          "weight": 1.515223
+        },
+        {
+          "term": "corner",
+          "weight": 1.515223
+        },
+        {
+          "term": "presented",
+          "weight": 1.514296
+        },
+        {
+          "term": "offering",
+          "weight": 1.514296
+        },
+        {
+          "term": "oily",
+          "weight": 1.514296
+        },
+        {
+          "term": "world",
+          "weight": 1.480005
+        },
+        {
+          "term": "actor",
+          "weight": 1.478513
+        },
+        {
+          "term": "ballato's",
+          "weight": 1.478513
+        },
+        {
+          "term": "homemade",
+          "weight": 1.415247
+        },
+        {
+          "term": "wow",
+          "weight": 1.415247
+        },
+        {
+          "term": "calamari",
+          "weight": 1.415247
+        },
+        {
+          "term": "effort",
+          "weight": 1.415247
+        },
+        {
+          "term": "bass",
+          "weight": 1.415247
+        },
+        {
+          "term": "done",
+          "weight": 1.411263
+        },
+        {
+          "term": "waitress",
+          "weight": 1.380832
+        },
+        {
+          "term": "moderately",
+          "weight": 1.31343
+        },
+        {
+          "term": "weird",
+          "weight": 1.31343
+        },
+        {
+          "term": "lemon",
+          "weight": 1.31343
+        },
+        {
+          "term": "grass",
+          "weight": 1.31343
+        },
+        {
+          "term": "match",
+          "weight": 1.31343
+        },
+        {
+          "term": "dimsum",
+          "weight": 1.31343
+        },
+        {
+          "term": "main",
+          "weight": 1.290512
+        },
+        {
+          "term": "extensive",
+          "weight": 1.267722
+        },
+        {
+          "term": "around",
+          "weight": 1.254351
+        },
+        {
+          "term": "crust",
+          "weight": 1.247642
+        },
+        {
+          "term": "fixe",
+          "weight": 1.242091
+        },
+        {
+          "term": "jimmy's",
+          "weight": 1.230935
+        },
+        {
+          "term": "waste",
+          "weight": 1.230935
+        },
+        {
+          "term": "cucumber",
+          "weight": 1.227519
+        },
+        {
+          "term": "lasagna",
+          "weight": 1.227519
+        },
+        {
+          "term": "crabmeat",
+          "weight": 1.227519
+        },
+        {
+          "term": "perfectly",
+          "weight": 1.227519
+        }
+      ],
+      "topic_similarity": {
+        "0": 0.133647,
+        "1": 0.01189,
+        "2": 0.030279,
+        "3": 0.003497,
+        "4": 0.073211,
+        "5": 0.017683,
+        "6": 0.048437,
+        "7": 0.069087,
+        "8": 0.013862,
+        "9": 0.01296,
+        "10": 0.123579,
+        "11": 0.084095,
+        "12": 0.164513,
+        "13": 0.051828,
+        "14": 0.048365,
+        "15": 0.000177,
+        "16": 0.090654,
+        "17": 0.219217,
+        "18": 0.204878,
+        "19": 0.008664
+      }
+    },
+    "service": {
+      "seed_terms": [
+        "apology",
+        "attentive",
+        "attitude",
+        "bartender",
+        "bill",
+        "check",
+        "courteous",
+        "delivery",
+        "employee",
+        "friendly",
+        "greeting",
+        "helpful",
+        "host",
+        "hostess",
+        "inattentive",
+        "knowledgeable",
+        "manager",
+        "order",
+        "polite",
+        "professional",
+        "prompt",
+        "quick",
+        "recommendation",
+        "recommended",
+        "reservation",
+        "response",
+        "rude",
+        "seated",
+        "server",
+        "service",
+        "slow",
+        "staff",
+        "takeout",
+        "unhelpful",
+        "wait",
+        "waiter",
+        "waiting",
+        "waitress"
+      ],
+      "expanded_terms": [
+        {
+          "term": "york",
+          "weight": 1.307552
+        },
+        {
+          "term": "outstanding",
+          "weight": 1.229641
+        },
+        {
+          "term": "impeccable",
+          "weight": 1.138804
+        },
+        {
+          "term": "owner",
+          "weight": 1.044962
+        },
+        {
+          "term": "modern",
+          "weight": 1.043145
+        },
+        {
+          "term": "soggy",
+          "weight": 1.00223
+        },
+        {
+          "term": "setting",
+          "weight": 1.000224
+        },
+        {
+          "term": "relaxed",
+          "weight": 0.961567
+        },
+        {
+          "term": "pay",
+          "weight": 0.939308
+        },
+        {
+          "term": "saturday",
+          "weight": 0.926458
+        },
+        {
+          "term": "large",
+          "weight": 0.9251
+        },
+        {
+          "term": "highly",
+          "weight": 0.916775
+        },
+        {
+          "term": "till",
+          "weight": 0.916056
+        },
+        {
+          "term": "wonderful",
+          "weight": 0.909052
+        },
+        {
+          "term": "casual",
+          "weight": 0.903065
+        },
+        {
+          "term": "eats",
+          "weight": 0.875309
+        },
+        {
+          "term": "exceptional",
+          "weight": 0.875309
+        },
+        {
+          "term": "loud",
+          "weight": 0.859038
+        },
+        {
+          "term": "away",
+          "weight": 0.841913
+        },
+        {
+          "term": "love",
+          "weight": 0.841474
+        },
+        {
+          "term": "plain",
+          "weight": 0.825746
+        },
+        {
+          "term": "smile",
+          "weight": 0.815753
+        },
+        {
+          "term": "dessert",
+          "weight": 0.815011
+        },
+        {
+          "term": "cheap",
+          "weight": 0.809457
+        },
+        {
+          "term": "busy",
+          "weight": 0.798001
+        },
+        {
+          "term": "awsome",
+          "weight": 0.782359
+        },
+        {
+          "term": "small",
+          "weight": 0.779263
+        },
+        {
+          "term": "chance",
+          "weight": 0.777316
+        },
+        {
+          "term": "soon",
+          "weight": 0.777316
+        },
+        {
+          "term": "atmosphere",
+          "weight": 0.768327
+        },
+        {
+          "term": "packed",
+          "weight": 0.763549
+        },
+        {
+          "term": "personable",
+          "weight": 0.759203
+        },
+        {
+          "term": "class",
+          "weight": 0.759203
+        },
+        {
+          "term": "fresca",
+          "weight": 0.759203
+        },
+        {
+          "term": "fixe",
+          "weight": 0.753069
+        },
+        {
+          "term": "line",
+          "weight": 0.752909
+        },
+        {
+          "term": "promptly",
+          "weight": 0.749016
+        },
+        {
+          "term": "20",
+          "weight": 0.744493
+        },
+        {
+          "term": "nothing",
+          "weight": 0.724083
+        },
+        {
+          "term": "refill",
+          "weight": 0.72343
+        },
+        {
+          "term": "add",
+          "weight": 0.721175
+        },
+        {
+          "term": "fantastic",
+          "weight": 0.702652
+        },
+        {
+          "term": "ice",
+          "weight": 0.695294
+        },
+        {
+          "term": "ambience",
+          "weight": 0.681789
+        },
+        {
+          "term": "prix",
+          "weight": 0.658936
+        },
+        {
+          "term": "reasonable",
+          "weight": 0.657445
+        },
+        {
+          "term": "waitstaff",
+          "weight": 0.647764
+        },
+        {
+          "term": "high",
+          "weight": 0.64369
+        },
+        {
+          "term": "4",
+          "weight": 0.63729
+        },
+        {
+          "term": "minute",
+          "weight": 0.633668
+        },
+        {
+          "term": "guy",
+          "weight": 0.62927
+        },
+        {
+          "term": "new",
+          "weight": 0.61473
+        },
+        {
+          "term": "dollar",
+          "weight": 0.611815
+        },
+        {
+          "term": "previous",
+          "weight": 0.611815
+        },
+        {
+          "term": "la",
+          "weight": 0.611815
+        },
+        {
+          "term": "hesitate",
+          "weight": 0.610704
+        },
+        {
+          "term": "enter",
+          "weight": 0.610704
+        },
+        {
+          "term": "8pm",
+          "weight": 0.610704
+        },
+        {
+          "term": "rosa",
+          "weight": 0.610704
+        },
+        {
+          "term": "sometimes",
+          "weight": 0.610241
+        }
+      ],
+      "topic_similarity": {
+        "0": 0.012187,
+        "1": 0.003642,
+        "2": 0.027125,
+        "3": 0.002711,
+        "4": 0.011611,
+        "5": 0.056567,
+        "6": 0.010954,
+        "7": 0.080496,
+        "8": 0.002296,
+        "9": 0.06683,
+        "10": 0.062943,
+        "11": 0.101929,
+        "12": 0.013217,
+        "13": 0.031423,
+        "14": 0.126714,
+        "15": 0.008435,
+        "16": 0.087053,
+        "17": 0.012795,
+        "18": 0.00684,
+        "19": 0.0
+      }
+    },
+    "price": {
+      "seed_terms": [
+        "affordable",
+        "bill",
+        "budget",
+        "charge",
+        "charged",
+        "cheap",
+        "cheaper",
+        "cost",
+        "costly",
+        "deal",
+        "discount",
+        "dollar",
+        "euro",
+        "expensive",
+        "fair",
+        "fee",
+        "inexpensive",
+        "money",
+        "overpriced",
+        "paid",
+        "pay",
+        "price",
+        "pricey",
+        "pricing",
+        "reasonable",
+        "underpriced",
+        "value",
+        "worth"
+      ],
+      "expanded_terms": [
+        {
+          "term": "fixe",
+          "weight": 2.283637
+        },
+        {
+          "term": "fusion",
+          "weight": 2.105731
+        },
+        {
+          "term": "prix",
+          "weight": 1.998183
+        },
+        {
+          "term": "noisy",
+          "weight": 1.754775
+        },
+        {
+          "term": "waiting",
+          "weight": 1.40382
+        },
+        {
+          "term": "asian",
+          "weight": 1.348759
+        },
+        {
+          "term": "friendly",
+          "weight": 1.237484
+        },
+        {
+          "term": "open",
+          "weight": 1.17908
+        },
+        {
+          "term": "outdoor",
+          "weight": 1.111254
+        },
+        {
+          "term": "pleasantly",
+          "weight": 1.111254
+        },
+        {
+          "term": "appears",
+          "weight": 1.052865
+        },
+        {
+          "term": "attractive",
+          "weight": 0.978317
+        },
+        {
+          "term": "surprised",
+          "weight": 0.942742
+        },
+        {
+          "term": "quality",
+          "weight": 0.900311
+        },
+        {
+          "term": "type",
+          "weight": 0.889003
+        },
+        {
+          "term": "trip",
+          "weight": 0.888731
+        },
+        {
+          "term": "popular",
+          "weight": 0.877627
+        },
+        {
+          "term": "leave",
+          "weight": 0.87487
+        },
+        {
+          "term": "aside",
+          "weight": 0.856364
+        },
+        {
+          "term": "provided",
+          "weight": 0.856364
+        },
+        {
+          "term": "save",
+          "weight": 0.846285
+        },
+        {
+          "term": "besides",
+          "weight": 0.809255
+        },
+        {
+          "term": "changed",
+          "weight": 0.809255
+        },
+        {
+          "term": "still",
+          "weight": 0.794047
+        },
+        {
+          "term": "crowded",
+          "weight": 0.786914
+        },
+        {
+          "term": "literally",
+          "weight": 0.754193
+        },
+        {
+          "term": "satisfied",
+          "weight": 0.754001
+        },
+        {
+          "term": "next",
+          "weight": 0.73083
+        },
+        {
+          "term": "change",
+          "weight": 0.726564
+        },
+        {
+          "term": "melt",
+          "weight": 0.708961
+        },
+        {
+          "term": "ago",
+          "weight": 0.705237
+        },
+        {
+          "term": "seating",
+          "weight": 0.705237
+        },
+        {
+          "term": "classical",
+          "weight": 0.70191
+        },
+        {
+          "term": "lobby",
+          "weight": 0.70191
+        },
+        {
+          "term": "hosting",
+          "weight": 0.70191
+        },
+        {
+          "term": "stumbled",
+          "weight": 0.666752
+        },
+        {
+          "term": "stand",
+          "weight": 0.666752
+        },
+        {
+          "term": "chart",
+          "weight": 0.65822
+        },
+        {
+          "term": "week",
+          "weight": 0.654826
+        },
+        {
+          "term": "minute",
+          "weight": 0.646478
+        },
+        {
+          "term": "chicken",
+          "weight": 0.644222
+        },
+        {
+          "term": "feeling",
+          "weight": 0.642091
+        },
+        {
+          "term": "house",
+          "weight": 0.611175
+        },
+        {
+          "term": "west",
+          "weight": 0.607888
+        },
+        {
+          "term": "dark",
+          "weight": 0.578344
+        },
+        {
+          "term": "sooo",
+          "weight": 0.570909
+        },
+        {
+          "term": "hope",
+          "weight": 0.570909
+        },
+        {
+          "term": "moderate",
+          "weight": 0.570909
+        },
+        {
+          "term": "nevertheless",
+          "weight": 0.570909
+        },
+        {
+          "term": "trying",
+          "weight": 0.569775
+        },
+        {
+          "term": "french",
+          "weight": 0.568424
+        },
+        {
+          "term": "pre",
+          "weight": 0.564766
+        },
+        {
+          "term": "attentive",
+          "weight": 0.561851
+        },
+        {
+          "term": "cake",
+          "weight": 0.553315
+        },
+        {
+          "term": "else",
+          "weight": 0.546794
+        },
+        {
+          "term": "happened",
+          "weight": 0.544923
+        },
+        {
+          "term": "tiramisu",
+          "weight": 0.544923
+        },
+        {
+          "term": "tikka",
+          "weight": 0.544923
+        },
+        {
+          "term": "roast",
+          "weight": 0.544923
+        },
+        {
+          "term": "memorable",
+          "weight": 0.544923
+        }
+      ],
+      "topic_similarity": {
+        "0": 0.006532,
+        "1": 1e-06,
+        "2": 0.003945,
+        "3": 0.012666,
+        "4": 0.078886,
+        "5": 0.01015,
+        "6": 7e-06,
+        "7": 0.02728,
+        "8": 0.0,
+        "9": 0.011665,
+        "10": 0.029341,
+        "11": 0.001508,
+        "12": 5e-06,
+        "13": 0.095287,
+        "14": 0.019896,
+        "15": 0.117152,
+        "16": 0.0106,
+        "17": 0.008068,
+        "18": 0.013751,
+        "19": 0.013673
+      }
+    },
+    "ambience": {
+      "seed_terms": [
+        "air",
+        "ambiance",
+        "ambience",
+        "atmosphere",
+        "bar",
+        "bathroom",
+        "candle",
+        "chair",
+        "clean",
+        "cold",
+        "comfortable",
+        "cosy",
+        "counter",
+        "cozy",
+        "crowded",
+        "decor",
+        "decoration",
+        "design",
+        "dirty",
+        "environment",
+        "indoor",
+        "interior",
+        "layout",
+        "light",
+        "lighting",
+        "loud",
+        "music",
+        "noise",
+        "noisy",
+        "outdoor",
+        "patio",
+        "quiet",
+        "restroom",
+        "romantic",
+        "room",
+        "seat",
+        "seating",
+        "smell",
+        "space",
+        "table",
+        "temperature",
+        "uncomfortable",
+        "vibe",
+        "view",
+        "warm",
+        "window"
+      ],
+      "expanded_terms": [
+        {
+          "term": "fusion",
+          "weight": 1.162472
+        },
+        {
+          "term": "dessert",
+          "weight": 0.859472
+        },
+        {
+          "term": "friendly",
+          "weight": 0.846957
+        },
+        {
+          "term": "highly",
+          "weight": 0.81113
+        },
+        {
+          "term": "waiting",
+          "weight": 0.774981
+        },
+        {
+          "term": "still",
+          "weight": 0.763202
+        },
+        {
+          "term": "asian",
+          "weight": 0.744584
+        },
+        {
+          "term": "chance",
+          "weight": 0.716011
+        },
+        {
+          "term": "soon",
+          "weight": 0.716011
+        },
+        {
+          "term": "large",
+          "weight": 0.713067
+        },
+        {
+          "term": "packed",
+          "weight": 0.70333
+        },
+        {
+          "term": "prompt",
+          "weight": 0.681645
+        },
+        {
+          "term": "small",
+          "weight": 0.675104
+        },
+        {
+          "term": "york",
+          "weight": 0.672193
+        },
+        {
+          "term": "found",
+          "weight": 0.669325
+        },
+        {
+          "term": "refill",
+          "weight": 0.666374
+        },
+        {
+          "term": "saturday",
+          "weight": 0.65184
+        },
+        {
+          "term": "busy",
+          "weight": 0.634289
+        },
+        {
+          "term": "pleasantly",
+          "weight": 0.61347
+        },
+        {
+          "term": "waitstaff",
+          "weight": 0.596676
+        },
+        {
+          "term": "away",
+          "weight": 0.592356
+        },
+        {
+          "term": "appears",
+          "weight": 0.581236
+        },
+        {
+          "term": "dim",
+          "weight": 0.534849
+        },
+        {
+          "term": "sum",
+          "weight": 0.534849
+        },
+        {
+          "term": "area",
+          "weight": 0.533636
+        },
+        {
+          "term": "line",
+          "weight": 0.529734
+        },
+        {
+          "term": "surprised",
+          "weight": 0.520442
+        },
+        {
+          "term": "money",
+          "weight": 0.516425
+        },
+        {
+          "term": "sitting",
+          "weight": 0.513948
+        },
+        {
+          "term": "watching",
+          "weight": 0.51219
+        },
+        {
+          "term": "type",
+          "weight": 0.490776
+        },
+        {
+          "term": "enjoyed",
+          "weight": 0.484844
+        },
+        {
+          "term": "till",
+          "weight": 0.470931
+        },
+        {
+          "term": "save",
+          "weight": 0.467193
+        },
+        {
+          "term": "salmon",
+          "weight": 0.453108
+        },
+        {
+          "term": "high",
+          "weight": 0.452889
+        },
+        {
+          "term": "expensive",
+          "weight": 0.448284
+        },
+        {
+          "term": "besides",
+          "weight": 0.446751
+        },
+        {
+          "term": "changed",
+          "weight": 0.446751
+        },
+        {
+          "term": "attentive",
+          "weight": 0.446044
+        },
+        {
+          "term": "lamb",
+          "weight": 0.445815
+        },
+        {
+          "term": "classy",
+          "weight": 0.44425
+        },
+        {
+          "term": "checked",
+          "weight": 0.436024
+        },
+        {
+          "term": "disapointed",
+          "weight": 0.436024
+        },
+        {
+          "term": "worker",
+          "weight": 0.43406
+        },
+        {
+          "term": "vegetable",
+          "weight": 0.430285
+        },
+        {
+          "term": "ice",
+          "weight": 0.430233
+        },
+        {
+          "term": "6th",
+          "weight": 0.422581
+        },
+        {
+          "term": "accomodating",
+          "weight": 0.421998
+        },
+        {
+          "term": "literally",
+          "weight": 0.416354
+        },
+        {
+          "term": "bill",
+          "weight": 0.408885
+        },
+        {
+          "term": "next",
+          "weight": 0.403456
+        },
+        {
+          "term": "trying",
+          "weight": 0.400576
+        },
+        {
+          "term": "feeling",
+          "weight": 0.400073
+        },
+        {
+          "term": "chocolate",
+          "weight": 0.398216
+        },
+        {
+          "term": "everyone",
+          "weight": 0.394904
+        },
+        {
+          "term": "dark",
+          "weight": 0.389516
+        },
+        {
+          "term": "ago",
+          "weight": 0.389327
+        },
+        {
+          "term": "return",
+          "weight": 0.389206
+        },
+        {
+          "term": "classical",
+          "weight": 0.387491
+        }
+      ],
+      "topic_similarity": {
+        "0": 0.024149,
+        "1": 0.026456,
+        "2": 0.023999,
+        "3": 0.002733,
+        "4": 0.018276,
+        "5": 0.02065,
+        "6": 0.006824,
+        "7": 0.074147,
+        "8": 0.016216,
+        "9": 0.04702,
+        "10": 0.048516,
+        "11": 0.0524,
+        "12": 0.034147,
+        "13": 0.000661,
+        "14": 0.033684,
+        "15": 0.064674,
+        "16": 0.002325,
+        "17": 0.008186,
+        "18": 0.023323,
+        "19": 0.0
+      }
+    },
+    "miscellaneous": {
+      "seed_terms": [
+        "amazing",
+        "awful",
+        "bad",
+        "best",
+        "disappointed",
+        "enjoy",
+        "everything",
+        "excellent",
+        "experience",
+        "favorite",
+        "favourite",
+        "general",
+        "good",
+        "great",
+        "impression",
+        "like",
+        "love",
+        "nothing",
+        "overall",
+        "place",
+        "poor",
+        "recommend",
+        "recommended",
+        "restaurant",
+        "return",
+        "satisfied",
+        "terrible",
+        "visit",
+        "worst",
+        "worth"
+      ],
+      "expanded_terms": [
+        {
+          "term": "friendly",
+          "weight": 4.12726
+        },
+        {
+          "term": "fixe",
+          "weight": 3.582533
+        },
+        {
+          "term": "dim",
+          "weight": 3.499254
+        },
+        {
+          "term": "sum",
+          "weight": 3.499254
+        },
+        {
+          "term": "prix",
+          "weight": 3.134717
+        },
+        {
+          "term": "reasonable",
+          "weight": 3.127626
+        },
+        {
+          "term": "highly",
+          "weight": 3.000683
+        },
+        {
+          "term": "reasonably",
+          "weight": 2.890839
+        },
+        {
+          "term": "thai",
+          "weight": 2.552669
+        },
+        {
+          "term": "quality",
+          "weight": 2.462278
+        },
+        {
+          "term": "dress",
+          "weight": 2.269232
+        },
+        {
+          "term": "lived",
+          "weight": 2.249855
+        },
+        {
+          "term": "anyone",
+          "weight": 2.067466
+        },
+        {
+          "term": "guy",
+          "weight": 2.041043
+        },
+        {
+          "term": "prompt",
+          "weight": 2.011376
+        },
+        {
+          "term": "bagel",
+          "weight": 1.996389
+        },
+        {
+          "term": "dining",
+          "weight": 1.985416
+        },
+        {
+          "term": "found",
+          "weight": 1.866929
+        },
+        {
+          "term": "cost",
+          "weight": 1.837678
+        },
+        {
+          "term": "similar",
+          "weight": 1.820473
+        },
+        {
+          "term": "worker",
+          "weight": 1.781259
+        },
+        {
+          "term": "hipster",
+          "weight": 1.776368
+        },
+        {
+          "term": "bathroom",
+          "weight": 1.776368
+        },
+        {
+          "term": "bud",
+          "weight": 1.776368
+        },
+        {
+          "term": "overrated",
+          "weight": 1.701924
+        },
+        {
+          "term": "priced",
+          "weight": 1.66866
+        },
+        {
+          "term": "pay",
+          "weight": 1.66639
+        },
+        {
+          "term": "outstanding",
+          "weight": 1.651901
+        },
+        {
+          "term": "cozy",
+          "weight": 1.644051
+        },
+        {
+          "term": "area",
+          "weight": 1.601947
+        },
+        {
+          "term": "setting",
+          "weight": 1.58475
+        },
+        {
+          "term": "ever",
+          "weight": 1.532569
+        },
+        {
+          "term": "impeccable",
+          "weight": 1.529871
+        },
+        {
+          "term": "hour",
+          "weight": 1.527243
+        },
+        {
+          "term": "nyc",
+          "weight": 1.514511
+        },
+        {
+          "term": "break",
+          "weight": 1.497956
+        },
+        {
+          "term": "plenty",
+          "weight": 1.437046
+        },
+        {
+          "term": "owner",
+          "weight": 1.403803
+        },
+        {
+          "term": "horrible",
+          "weight": 1.386378
+        },
+        {
+          "term": "casual",
+          "weight": 1.381663
+        },
+        {
+          "term": "popular",
+          "weight": 1.376807
+        },
+        {
+          "term": "lover",
+          "weight": 1.365355
+        },
+        {
+          "term": "seemed",
+          "weight": 1.365355
+        },
+        {
+          "term": "hidden",
+          "weight": 1.365355
+        },
+        {
+          "term": "pre",
+          "weight": 1.356065
+        },
+        {
+          "term": "selection",
+          "weight": 1.352484
+        },
+        {
+          "term": "aside",
+          "weight": 1.34345
+        },
+        {
+          "term": "provided",
+          "weight": 1.34345
+        },
+        {
+          "term": "avoid",
+          "weight": 1.308136
+        },
+        {
+          "term": "strip",
+          "weight": 1.308136
+        },
+        {
+          "term": "spot",
+          "weight": 1.299822
+        },
+        {
+          "term": "relaxed",
+          "weight": 1.29177
+        },
+        {
+          "term": "open",
+          "weight": 1.286317
+        },
+        {
+          "term": "decor",
+          "weight": 1.245018
+        },
+        {
+          "term": "wonderful",
+          "weight": 1.221222
+        },
+        {
+          "term": "fusion",
+          "weight": 1.206045
+        },
+        {
+          "term": "chinese",
+          "weight": 1.189858
+        },
+        {
+          "term": "capable",
+          "weight": 1.184245
+        },
+        {
+          "term": "admittedly",
+          "weight": 1.184245
+        },
+        {
+          "term": "chain",
+          "weight": 1.184245
+        }
+      ],
+      "topic_similarity": {
+        "0": 0.0991,
+        "1": 0.197655,
+        "2": 0.088782,
+        "3": 0.189372,
+        "4": 0.070657,
+        "5": 0.0,
+        "6": 0.015387,
+        "7": 0.033411,
+        "8": 0.166677,
+        "9": 0.005806,
+        "10": 0.059646,
+        "11": 0.012953,
+        "12": 0.006191,
+        "13": 0.149485,
+        "14": 0.170228,
+        "15": 0.067098,
+        "16": 0.05764,
+        "17": 0.059079,
+        "18": 0.030648,
+        "19": 0.022652
+      }
+    }
+  },
+  "baseline_thresholds": {
+    "food": 0.075,
+    "service": 0.225,
+    "price": 0.175,
+    "ambience": 0.175,
+    "miscellaneous": 0.0
+  }
+}

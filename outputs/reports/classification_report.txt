@@ -1,0 +1,9 @@
+Best sentiment model: tfidf_logreg
+
+class        precision    recall        f1   support
+----------------------------------------------------
+negative         0.676     0.622     0.648       222
+neutral          0.480     0.500     0.490        94
+positive         0.848     0.866     0.857       657
+macro avg        0.668     0.663     0.665       973
+weighted avg     0.773     0.775     0.774       973

@@ -1,0 +1,96 @@
+
+[TRAIN] 3035 training sentences (2579 fit / 456 dev), 3511 aspect-sentiment rows
+
+======================================================================
+1/4  pLSA + TF-ICF lexicon baseline
+======================================================================
+[PLSA] Using 20 topics on 2579 documents with vocabulary size 1159.
+[LEXICON] Dev macro-F1=0.6773, micro-F1=0.6681
+======================================================================
+2/4  Supervised aspect detector (TF-IDF + logistic regression)
+======================================================================
+[ASPECT] C=1.0   dev macro-F1=0.8144 micro-F1=0.8329
+[ASPECT] C=4.0   dev macro-F1=0.8245 micro-F1=0.8401
+[ASPECT] C=10.0  dev macro-F1=0.8243 micro-F1=0.8404
+[ASPECT] Best C=4.0 saved to /Users/ankurdhanraj/Desktop/NLP_PROJ/models/aspect_detector.joblib
+======================================================================
+3/4  Aspect-specific sentiment classifiers (TF-IDF + LR / SVM)
+======================================================================
+[SENTIMENT] food           n=1164  best C=4.0  dev macro-F1=0.6331
+[SENTIMENT] service        n=561   best C=1.0  dev macro-F1=0.7437
+[SENTIMENT] price          n=304   best C=1.0  dev macro-F1=0.5029
+[SENTIMENT] ambience       n=384   best C=1.0  dev macro-F1=0.5682
+[SENTIMENT] miscellaneous  n=1098  best C=1.0  dev macro-F1=0.6479
+======================================================================
+4/4  Aspect-specific BiLSTM sentiment classifiers
+======================================================================
+[LSTM] Vocabulary=4,120 | GloVe coverage=92.4% (glove.6B.50d.txt)
+[LSTM] Training aspect 'food' (989 train / 175 dev)
+    epoch 01 | loss=1.0984 | dev macro-F1=0.3480
+    epoch 02 | loss=1.0731 | dev macro-F1=0.4417
+    epoch 03 | loss=0.9618 | dev macro-F1=0.4358
+    epoch 04 | loss=0.8422 | dev macro-F1=0.5125
+    epoch 05 | loss=0.6866 | dev macro-F1=0.5031
+    epoch 06 | loss=0.5657 | dev macro-F1=0.5572
+    epoch 07 | loss=0.4896 | dev macro-F1=0.5402
+    epoch 08 | loss=0.3843 | dev macro-F1=0.6397
+    epoch 09 | loss=0.2874 | dev macro-F1=0.5491
+    epoch 10 | loss=0.2216 | dev macro-F1=0.6343
+    epoch 11 | loss=0.1595 | dev macro-F1=0.6080
+    refitted on 1164 samples for 8 epochs
+[LSTM] Training aspect 'service' (476 train / 85 dev)
+    epoch 01 | loss=1.0899 | dev macro-F1=0.3215
+    epoch 02 | loss=1.0881 | dev macro-F1=0.4625
+    epoch 03 | loss=1.0586 | dev macro-F1=0.4552
+    epoch 04 | loss=1.0096 | dev macro-F1=0.6406
+    epoch 05 | loss=0.9256 | dev macro-F1=0.7916
+    epoch 06 | loss=0.8425 | dev macro-F1=0.7756
+    epoch 07 | loss=0.7443 | dev macro-F1=0.7815
+    epoch 08 | loss=0.6198 | dev macro-F1=0.8378
+    epoch 09 | loss=0.5698 | dev macro-F1=0.7735
+    epoch 10 | loss=0.5238 | dev macro-F1=0.7726
+    epoch 11 | loss=0.4769 | dev macro-F1=0.7895
+    refitted on 561 samples for 8 epochs
+[LSTM] Training aspect 'price' (258 train / 46 dev)
+    epoch 01 | loss=1.1133 | dev macro-F1=0.2466
+    epoch 02 | loss=1.0550 | dev macro-F1=0.2466
+    epoch 03 | loss=1.0620 | dev macro-F1=0.3148
+    epoch 04 | loss=1.0552 | dev macro-F1=0.2996
+    epoch 05 | loss=0.9935 | dev macro-F1=0.2556
+    epoch 06 | loss=0.9981 | dev macro-F1=0.3328
+    epoch 07 | loss=0.9259 | dev macro-F1=0.4760
+    epoch 08 | loss=0.9122 | dev macro-F1=0.3571
+    epoch 09 | loss=0.8459 | dev macro-F1=0.6212
+    epoch 10 | loss=0.7642 | dev macro-F1=0.4419
+    epoch 11 | loss=0.7183 | dev macro-F1=0.5769
+    epoch 12 | loss=0.6496 | dev macro-F1=0.5902
+    refitted on 304 samples for 9 epochs
+[LSTM] Training aspect 'ambience' (326 train / 58 dev)
+    epoch 01 | loss=1.1027 | dev macro-F1=0.3166
+    epoch 02 | loss=1.0976 | dev macro-F1=0.2721
+    epoch 03 | loss=1.0847 | dev macro-F1=0.4182
+    epoch 04 | loss=1.0572 | dev macro-F1=0.4421
+    epoch 05 | loss=1.0115 | dev macro-F1=0.4300
+    epoch 06 | loss=0.9293 | dev macro-F1=0.3850
+    epoch 07 | loss=0.8807 | dev macro-F1=0.4160
+    refitted on 384 samples for 4 epochs
+[LSTM] Training aspect 'miscellaneous' (933 train / 165 dev)
+    epoch 01 | loss=1.0923 | dev macro-F1=0.3141
+    epoch 02 | loss=1.0563 | dev macro-F1=0.4642
+    epoch 03 | loss=0.9664 | dev macro-F1=0.4629
+    epoch 04 | loss=0.9030 | dev macro-F1=0.4962
+    epoch 05 | loss=0.8021 | dev macro-F1=0.5203
+    epoch 06 | loss=0.6961 | dev macro-F1=0.5438
+    epoch 07 | loss=0.5844 | dev macro-F1=0.6038
+    epoch 08 | loss=0.5128 | dev macro-F1=0.6081
+    epoch 09 | loss=0.4306 | dev macro-F1=0.6216
+    epoch 10 | loss=0.2980 | dev macro-F1=0.6047
+    epoch 11 | loss=0.2775 | dev macro-F1=0.6053
+    epoch 12 | loss=0.2108 | dev macro-F1=0.6162
+    refitted on 1098 samples for 9 epochs
+[LSTM] Models saved under /Users/ankurdhanraj/Desktop/NLP_PROJ/models/lstm
+
+======================================================================
+Training complete in 48.4s
+Summary: /Users/ankurdhanraj/Desktop/NLP_PROJ/outputs/reports/training_summary.json
+Next: python -m scripts.evaluate_all

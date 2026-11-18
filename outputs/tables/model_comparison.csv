@@ -1,0 +1,5 @@
+model,accuracy,macro_f1,weighted_f1,n_samples
+tfidf_logreg,0.774923,0.664799,0.773744,973
+bilstm,0.756423,0.643278,0.761954,973
+tfidf_svm,0.779034,0.628668,0.764107,973
+majority,0.675231,0.268712,0.544328,973

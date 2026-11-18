@@ -1,0 +1,160 @@
+{
+  "source": "SemEval-2014 Task 4 (ABSA), restaurant domain",
+  "canonical_aspects": [
+    "food",
+    "service",
+    "price",
+    "ambience",
+    "miscellaneous"
+  ],
+  "sentiment_labels": [
+    "negative",
+    "neutral",
+    "positive"
+  ],
+  "conflict_policy": "exclude",
+  "splits": {
+    "train": {
+      "sentences": 3041,
+      "empty_texts": 0,
+      "duplicate_texts": 6,
+      "aspect_annotations": 3713,
+      "aspect_term_annotations": 3693,
+      "polarity_distribution": {
+        "negative": 839,
+        "positive": 2179,
+        "conflict": 195,
+        "neutral": 500
+      },
+      "aspect_distribution": {
+        "service": 597,
+        "food": 1232,
+        "miscellaneous": 1132,
+        "price": 321,
+        "ambience": 431
+      },
+      "aspect_sentiment_distribution": {
+        "ambience/conflict": 47,
+        "ambience/negative": 98,
+        "ambience/neutral": 23,
+        "ambience/positive": 263,
+        "food/conflict": 66,
+        "food/negative": 209,
+        "food/neutral": 90,
+        "food/positive": 867,
+        "miscellaneous/conflict": 30,
+        "miscellaneous/negative": 199,
+        "miscellaneous/neutral": 357,
+        "miscellaneous/positive": 546,
+        "price/conflict": 17,
+        "price/negative": 115,
+        "price/neutral": 10,
+        "price/positive": 179,
+        "service/conflict": 35,
+        "service/negative": 218,
+        "service/neutral": 20,
+        "service/positive": 324
+      },
+      "aspects_per_sentence": {
+        "1": 2467,
+        "2": 484,
+        "3": 84,
+        "4": 6
+      },
+      "mean_tokens": 13.83,
+      "max_tokens": 69,
+      "sentences_without_aspect": 0
+    },
+    "test": {
+      "sentences": 800,
+      "empty_texts": 0,
+      "duplicate_texts": 0,
+      "aspect_annotations": 1025,
+      "aspect_term_annotations": 1134,
+      "polarity_distribution": {
+        "positive": 657,
+        "conflict": 52,
+        "negative": 222,
+        "neutral": 94
+      },
+      "aspect_distribution": {
+        "food": 418,
+        "service": 172,
+        "ambience": 118,
+        "miscellaneous": 234,
+        "price": 83
+      },
+      "aspect_sentiment_distribution": {
+        "ambience/conflict": 13,
+        "ambience/negative": 21,
+        "ambience/neutral": 8,
+        "ambience/positive": 76,
+        "food/conflict": 16,
+        "food/negative": 69,
+        "food/neutral": 31,
+        "food/positive": 302,
+        "miscellaneous/conflict": 15,
+        "miscellaneous/negative": 41,
+        "miscellaneous/neutral": 51,
+        "miscellaneous/positive": 127,
+        "price/conflict": 3,
+        "price/negative": 28,
+        "price/neutral": 1,
+        "price/positive": 51,
+        "service/conflict": 5,
+        "service/negative": 63,
+        "service/neutral": 3,
+        "service/positive": 101
+      },
+      "aspects_per_sentence": {
+        "1": 611,
+        "2": 155,
+        "3": 32,
+        "4": 2
+      },
+      "mean_tokens": 14.03,
+      "max_tokens": 58,
+      "sentences_without_aspect": 0
+    }
+  },
+  "processed": {
+    "train": {
+      "sentences_path": "/Users/ankurdhanraj/Desktop/NLP_PROJ/data/processed/train_sentences.csv",
+      "sentiment_path": "/Users/ankurdhanraj/Desktop/NLP_PROJ/data/processed/train_aspect_sentiment.csv",
+      "sentences": 3035,
+      "sentiment_rows": 3511,
+      "duplicates_removed": 6
+    },
+    "test": {
+      "sentences_path": "/Users/ankurdhanraj/Desktop/NLP_PROJ/data/processed/test_sentences.csv",
+      "sentiment_path": "/Users/ankurdhanraj/Desktop/NLP_PROJ/data/processed/test_aspect_sentiment.csv",
+      "sentences": 800,
+      "sentiment_rows": 973,
+      "duplicates_removed": 0
+    }
+  },
+  "validation": {
+    "train": {
+      "sentence_rows": 3035,
+      "sentiment_rows": 3511,
+      "missing_text": 0,
+      "empty_text": 0,
+      "duplicate_texts": 0,
+      "missing_aspect_columns": [],
+      "invalid_aspects": [],
+      "invalid_labels": [],
+      "rows_with_zero_aspects": 0
+    },
+    "test": {
+      "sentence_rows": 800,
+      "sentiment_rows": 973,
+      "missing_text": 0,
+      "empty_text": 0,
+      "duplicate_texts": 0,
+      "missing_aspect_columns": [],
+      "invalid_aspects": [],
+      "invalid_labels": [],
+      "rows_with_zero_aspects": 0
+    }
+  }
+}

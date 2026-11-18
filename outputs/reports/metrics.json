@@ -1,0 +1,894 @@
+{
+  "generated_at": "2026-11-18T19:42:57.791303+00:00",
+  "test_set": {
+    "sentences": 800,
+    "aspect_sentiment_rows": 973
+  },
+  "dataset": {
+    "source": "SemEval-2014 Task 4 (ABSA), restaurant domain",
+    "canonical_aspects": [
+      "food",
+      "service",
+      "price",
+      "ambience",
+      "miscellaneous"
+    ],
+    "sentiment_labels": [
+      "negative",
+      "neutral",
+      "positive"
+    ],
+    "conflict_policy": "exclude",
+    "splits": {
+      "train": {
+        "sentences": 3041,
+        "empty_texts": 0,
+        "duplicate_texts": 6,
+        "aspect_annotations": 3713,
+        "aspect_term_annotations": 3693,
+        "polarity_distribution": {
+          "negative": 839,
+          "positive": 2179,
+          "conflict": 195,
+          "neutral": 500
+        },
+        "aspect_distribution": {
+          "service": 597,
+          "food": 1232,
+          "miscellaneous": 1132,
+          "price": 321,
+          "ambience": 431
+        },
+        "aspect_sentiment_distribution": {
+          "ambience/conflict": 47,
+          "ambience/negative": 98,
+          "ambience/neutral": 23,
+          "ambience/positive": 263,
+          "food/conflict": 66,
+          "food/negative": 209,
+          "food/neutral": 90,
+          "food/positive": 867,
+          "miscellaneous/conflict": 30,
+          "miscellaneous/negative": 199,
+          "miscellaneous/neutral": 357,
+          "miscellaneous/positive": 546,
+          "price/conflict": 17,
+          "price/negative": 115,
+          "price/neutral": 10,
+          "price/positive": 179,
+          "service/conflict": 35,
+          "service/negative": 218,
+          "service/neutral": 20,
+          "service/positive": 324
+        },
+        "aspects_per_sentence": {
+          "1": 2467,
+          "2": 484,
+          "3": 84,
+          "4": 6
+        },
+        "mean_tokens": 13.83,
+        "max_tokens": 69,
+        "sentences_without_aspect": 0
+      },
+      "test": {
+        "sentences": 800,
+        "empty_texts": 0,
+        "duplicate_texts": 0,
+        "aspect_annotations": 1025,
+        "aspect_term_annotations": 1134,
+        "polarity_distribution": {
+          "positive": 657,
+          "conflict": 52,
+          "negative": 222,
+          "neutral": 94
+        },
+        "aspect_distribution": {
+          "food": 418,
+          "service": 172,
+          "ambience": 118,
+          "miscellaneous": 234,
+          "price": 83
+        },
+        "aspect_sentiment_distribution": {
+          "ambience/conflict": 13,
+          "ambience/negative": 21,
+          "ambience/neutral": 8,
+          "ambience/positive": 76,
+          "food/conflict": 16,
+          "food/negative": 69,
+          "food/neutral": 31,
+          "food/positive": 302,
+          "miscellaneous/conflict": 15,
+          "miscellaneous/negative": 41,
+          "miscellaneous/neutral": 51,
+          "miscellaneous/positive": 127,
+          "price/conflict": 3,
+          "price/negative": 28,
+          "price/neutral": 1,
+          "price/positive": 51,
+          "service/conflict": 5,
+          "service/negative": 63,
+          "service/neutral": 3,
+          "service/positive": 101
+        },
+        "aspects_per_sentence": {
+          "1": 611,
+          "2": 155,
+          "3": 32,
+          "4": 2
+        },
+        "mean_tokens": 14.03,
+        "max_tokens": 58,
+        "sentences_without_aspect": 0
+      }
+    },
+    "processed": {
+      "train": {
+        "sentences_path": "/Users/ankurdhanraj/Desktop/NLP_PROJ/data/processed/train_sentences.csv",
+        "sentiment_path": "/Users/ankurdhanraj/Desktop/NLP_PROJ/data/processed/train_aspect_sentiment.csv",
+        "sentences": 3035,
+        "sentiment_rows": 3511,
+        "duplicates_removed": 6
+      },
+      "test": {
+        "sentences_path": "/Users/ankurdhanraj/Desktop/NLP_PROJ/data/processed/test_sentences.csv",
+        "sentiment_path": "/Users/ankurdhanraj/Desktop/NLP_PROJ/data/processed/test_aspect_sentiment.csv",
+        "sentences": 800,
+        "sentiment_rows": 973,
+        "duplicates_removed": 0
+      }
+    },
+    "validation": {
+      "train": {
+        "sentence_rows": 3035,
+        "sentiment_rows": 3511,
+        "missing_text": 0,
+        "empty_text": 0,
+        "duplicate_texts": 0,
+        "missing_aspect_columns": [],
+        "invalid_aspects": [],
+        "invalid_labels": [],
+        "rows_with_zero_aspects": 0
+      },
+      "test": {
+        "sentence_rows": 800,
+        "sentiment_rows": 973,
+        "missing_text": 0,
+        "empty_text": 0,
+        "duplicate_texts": 0,
+        "missing_aspect_columns": [],
+        "invalid_aspects": [],
+        "invalid_labels": [],
+        "rows_with_zero_aspects": 0
+      }
+    }
+  },
+  "aspect_detection": {
+    "tfidf_logreg": {
+      "micro_f1": 0.835091,
+      "macro_f1": 0.812561,
+      "weighted_f1": 0.836655,
+      "hamming_loss": 0.086,
+      "subset_accuracy": 0.6875,
+      "per_aspect": {
+        "food": {
+          "precision": 0.909308,
+          "recall": 0.911483,
+          "f1": 0.910394,
+          "support": 418,
+          "roc_auc": 0.964992
+        },
+        "service": {
+          "precision": 0.9,
+          "recall": 0.889535,
+          "f1": 0.894737,
+          "support": 172,
+          "roc_auc": 0.980096
+        },
+        "price": {
+          "precision": 0.76087,
+          "recall": 0.843373,
+          "f1": 0.8,
+          "support": 83,
+          "roc_auc": 0.971888
+        },
+        "ambience": {
+          "precision": 0.835165,
+          "recall": 0.644068,
+          "f1": 0.727273,
+          "support": 118,
+          "roc_auc": 0.936142
+        },
+        "miscellaneous": {
+          "precision": 0.6609,
+          "recall": 0.816239,
+          "f1": 0.730402,
+          "support": 234,
+          "roc_auc": 0.904231
+        }
+      },
+      "thresholds": {
+        "food": 0.4,
+        "service": 0.5,
+        "price": 0.3,
+        "ambience": 0.65,
+        "miscellaneous": 0.35
+      }
+    },
+    "lexicon_plsa_tficf": {
+      "micro_f1": 0.651668,
+      "macro_f1": 0.692975,
+      "weighted_f1": 0.709068,
+      "hamming_loss": 0.2245,
+      "subset_accuracy": 0.20375,
+      "per_aspect": {
+        "food": {
+          "precision": 0.845387,
+          "recall": 0.811005,
+          "f1": 0.827839,
+          "support": 418,
+          "roc_auc": 0.869148
+        },
+        "service": {
+          "precision": 0.805031,
+          "recall": 0.744186,
+          "f1": 0.773414,
+          "support": 172,
+          "roc_auc": 0.900177
+        },
+        "price": {
+          "precision": 0.753425,
+          "recall": 0.662651,
+          "f1": 0.705128,
+          "support": 83,
+          "roc_auc": 0.824856
+        },
+        "ambience": {
+          "precision": 0.7,
+          "recall": 0.711864,
+          "f1": 0.705882,
+          "support": 118,
+          "roc_auc": 0.84281
+        },
+        "miscellaneous": {
+          "precision": 0.2925,
+          "recall": 1.0,
+          "f1": 0.452611,
+          "support": 234,
+          "roc_auc": 0.569433
+        }
+      },
+      "thresholds": {
+        "food": 0.075,
+        "service": 0.225,
+        "price": 0.175,
+        "ambience": 0.175,
+        "miscellaneous": 0.0
+      }
+    }
+  },
+  "sentiment": {
+    "majority": {
+      "accuracy": 0.675231,
+      "macro_f1": 0.268712,
+      "weighted_f1": 0.544328,
+      "n_samples": 973,
+      "confusion_matrix": [
+        [
+          0,
+          0,
+          222
+        ],
+        [
+          0,
+          0,
+          94
+        ],
+        [
+          0,
+          0,
+          657
+        ]
+      ],
+      "per_class": {
+        "negative": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 222
+        },
+        "neutral": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 94
+        },
+        "positive": {
+          "precision": 0.675231,
+          "recall": 1.0,
+          "f1": 0.806135,
+          "support": 657
+        }
+      },
+      "per_aspect": {
+        "food": {
+          "n_samples": 402,
+          "accuracy": 0.751244,
+          "macro_f1": 0.285985,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              69
+            ],
+            [
+              0,
+              0,
+              31
+            ],
+            [
+              0,
+              0,
+              302
+            ]
+          ]
+        },
+        "service": {
+          "n_samples": 167,
+          "accuracy": 0.60479,
+          "macro_f1": 0.251244,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              63
+            ],
+            [
+              0,
+              0,
+              3
+            ],
+            [
+              0,
+              0,
+              101
+            ]
+          ]
+        },
+        "price": {
+          "n_samples": 80,
+          "accuracy": 0.6375,
+          "macro_f1": 0.259542,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              28
+            ],
+            [
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              51
+            ]
+          ]
+        },
+        "ambience": {
+          "n_samples": 105,
+          "accuracy": 0.72381,
+          "macro_f1": 0.279926,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              21
+            ],
+            [
+              0,
+              0,
+              8
+            ],
+            [
+              0,
+              0,
+              76
+            ]
+          ]
+        },
+        "miscellaneous": {
+          "n_samples": 219,
+          "accuracy": 0.579909,
+          "macro_f1": 0.244701,
+          "confusion_matrix": [
+            [
+              0,
+              0,
+              41
+            ],
+            [
+              0,
+              0,
+              51
+            ],
+            [
+              0,
+              0,
+              127
+            ]
+          ]
+        }
+      }
+    },
+    "tfidf_logreg": {
+      "accuracy": 0.774923,
+      "macro_f1": 0.664799,
+      "weighted_f1": 0.773744,
+      "n_samples": 973,
+      "confusion_matrix": [
+        [
+          138,
+          18,
+          66
+        ],
+        [
+          11,
+          47,
+          36
+        ],
+        [
+          55,
+          33,
+          569
+        ]
+      ],
+      "per_class": {
+        "negative": {
+          "precision": 0.676471,
+          "recall": 0.621622,
+          "f1": 0.647887,
+          "support": 222
+        },
+        "neutral": {
+          "precision": 0.479592,
+          "recall": 0.5,
+          "f1": 0.489583,
+          "support": 94
+        },
+        "positive": {
+          "precision": 0.847988,
+          "recall": 0.866058,
+          "f1": 0.856928,
+          "support": 657
+        }
+      },
+      "per_aspect": {
+        "food": {
+          "n_samples": 402,
+          "accuracy": 0.825871,
+          "macro_f1": 0.635878,
+          "confusion_matrix": [
+            [
+              38,
+              4,
+              27
+            ],
+            [
+              6,
+              10,
+              15
+            ],
+            [
+              13,
+              5,
+              284
+            ]
+          ]
+        },
+        "service": {
+          "n_samples": 167,
+          "accuracy": 0.838323,
+          "macro_f1": 0.559107,
+          "confusion_matrix": [
+            [
+              46,
+              3,
+              14
+            ],
+            [
+              1,
+              0,
+              2
+            ],
+            [
+              7,
+              0,
+              94
+            ]
+          ]
+        },
+        "price": {
+          "n_samples": 80,
+          "accuracy": 0.8,
+          "macro_f1": 0.529442,
+          "confusion_matrix": [
+            [
+              21,
+              1,
+              6
+            ],
+            [
+              0,
+              0,
+              1
+            ],
+            [
+              8,
+              0,
+              43
+            ]
+          ]
+        },
+        "ambience": {
+          "n_samples": 105,
+          "accuracy": 0.733333,
+          "macro_f1": 0.451691,
+          "confusion_matrix": [
+            [
+              12,
+              0,
+              9
+            ],
+            [
+              2,
+              0,
+              6
+            ],
+            [
+              11,
+              0,
+              65
+            ]
+          ]
+        },
+        "miscellaneous": {
+          "n_samples": 219,
+          "accuracy": 0.643836,
+          "macro_f1": 0.609273,
+          "confusion_matrix": [
+            [
+              21,
+              10,
+              10
+            ],
+            [
+              2,
+              37,
+              12
+            ],
+            [
+              16,
+              28,
+              83
+            ]
+          ]
+        }
+      }
+    },
+    "tfidf_svm": {
+      "accuracy": 0.779034,
+      "macro_f1": 0.628668,
+      "weighted_f1": 0.764107,
+      "n_samples": 973,
+      "confusion_matrix": [
+        [
+          120,
+          11,
+          91
+        ],
+        [
+          11,
+          31,
+          52
+        ],
+        [
+          29,
+          21,
+          607
+        ]
+      ],
+      "per_class": {
+        "negative": {
+          "precision": 0.75,
+          "recall": 0.540541,
+          "f1": 0.628272,
+          "support": 222
+        },
+        "neutral": {
+          "precision": 0.492063,
+          "recall": 0.329787,
+          "f1": 0.394904,
+          "support": 94
+        },
+        "positive": {
+          "precision": 0.809333,
+          "recall": 0.923896,
+          "f1": 0.862829,
+          "support": 657
+        }
+      },
+      "per_aspect": {
+        "food": {
+          "n_samples": 402,
+          "accuracy": 0.793532,
+          "macro_f1": 0.454689,
+          "confusion_matrix": [
+            [
+              27,
+              1,
+              41
+            ],
+            [
+              7,
+              0,
+              24
+            ],
+            [
+              10,
+              0,
+              292
+            ]
+          ]
+        },
+        "service": {
+          "n_samples": 167,
+          "accuracy": 0.850299,
+          "macro_f1": 0.562963,
+          "confusion_matrix": [
+            [
+              46,
+              0,
+              17
+            ],
+            [
+              1,
+              0,
+              2
+            ],
+            [
+              5,
+              0,
+              96
+            ]
+          ]
+        },
+        "price": {
+          "n_samples": 80,
+          "accuracy": 0.8375,
+          "macro_f1": 0.551323,
+          "confusion_matrix": [
+            [
+              21,
+              0,
+              7
+            ],
+            [
+              0,
+              0,
+              1
+            ],
+            [
+              5,
+              0,
+              46
+            ]
+          ]
+        },
+        "ambience": {
+          "n_samples": 105,
+          "accuracy": 0.771429,
+          "macro_f1": 0.467049,
+          "confusion_matrix": [
+            [
+              10,
+              0,
+              11
+            ],
+            [
+              1,
+              0,
+              7
+            ],
+            [
+              5,
+              0,
+              71
+            ]
+          ]
+        },
+        "miscellaneous": {
+          "n_samples": 219,
+          "accuracy": 0.680365,
+          "macro_f1": 0.611745,
+          "confusion_matrix": [
+            [
+              16,
+              10,
+              15
+            ],
+            [
+              2,
+              31,
+              18
+            ],
+            [
+              4,
+              21,
+              102
+            ]
+          ]
+        }
+      }
+    },
+    "bilstm": {
+      "accuracy": 0.756423,
+      "macro_f1": 0.643278,
+      "weighted_f1": 0.761954,
+      "n_samples": 973,
+      "confusion_matrix": [
+        [
+          136,
+          27,
+          59
+        ],
+        [
+          11,
+          49,
+          34
+        ],
+        [
+          50,
+          56,
+          551
+        ]
+      ],
+      "per_class": {
+        "negative": {
+          "precision": 0.690355,
+          "recall": 0.612613,
+          "f1": 0.649165,
+          "support": 222
+        },
+        "neutral": {
+          "precision": 0.371212,
+          "recall": 0.521277,
+          "f1": 0.433628,
+          "support": 94
+        },
+        "positive": {
+          "precision": 0.85559,
+          "recall": 0.838661,
+          "f1": 0.847041,
+          "support": 657
+        }
+      },
+      "per_aspect": {
+        "food": {
+          "n_samples": 402,
+          "accuracy": 0.79602,
+          "macro_f1": 0.634921,
+          "confusion_matrix": [
+            [
+              40,
+              14,
+              15
+            ],
+            [
+              2,
+              16,
+              13
+            ],
+            [
+              15,
+              23,
+              264
+            ]
+          ]
+        },
+        "service": {
+          "n_samples": 167,
+          "accuracy": 0.778443,
+          "macro_f1": 0.569442,
+          "confusion_matrix": [
+            [
+              41,
+              6,
+              16
+            ],
+            [
+              2,
+              1,
+              0
+            ],
+            [
+              6,
+              7,
+              88
+            ]
+          ]
+        },
+        "price": {
+          "n_samples": 80,
+          "accuracy": 0.75,
+          "macro_f1": 0.481858,
+          "confusion_matrix": [
+            [
+              16,
+              1,
+              11
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              7,
+              0,
+              44
+            ]
+          ]
+        },
+        "ambience": {
+          "n_samples": 105,
+          "accuracy": 0.752381,
+          "macro_f1": 0.471368,
+          "confusion_matrix": [
+            [
+              11,
+              1,
+              9
+            ],
+            [
+              1,
+              0,
+              7
+            ],
+            [
+              6,
+              2,
+              68
+            ]
+          ]
+        },
+        "miscellaneous": {
+          "n_samples": 219,
+          "accuracy": 0.671233,
+          "macro_f1": 0.643646,
+          "confusion_matrix": [
+            [
+              28,
+              5,
+              8
+            ],
+            [
+              5,
+              32,
+              14
+            ],
+            [
+              16,
+              24,
+              87
+            ]
+          ]
+        }
+      }
+    }
+  },
+  "best_sentiment_model": "tfidf_logreg"
+}

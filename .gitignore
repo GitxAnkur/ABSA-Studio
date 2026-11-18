@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Large external resources (download with scripts/download_assets.py)
+data/external/glove.6B.50d.txt
+data/external/glove.6B.100d.txt
+data/external/*.zip
+data/external/nltk_data/
+
+# Streamlit / pytest caches
+.streamlit/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Notebook checkpoints
+.ipynb_checkpoints/

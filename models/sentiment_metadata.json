@@ -1,0 +1,30 @@
+{
+  "models": {
+    "food": {
+      "logreg_C": 4.0,
+      "dev_macro_f1": 0.633143,
+      "train_size": 1164
+    },
+    "service": {
+      "logreg_C": 1.0,
+      "dev_macro_f1": 0.743678,
+      "train_size": 561
+    },
+    "price": {
+      "logreg_C": 1.0,
+      "dev_macro_f1": 0.502924,
+      "train_size": 304
+    },
+    "ambience": {
+      "logreg_C": 1.0,
+      "dev_macro_f1": 0.568199,
+      "train_size": 384
+    },
+    "miscellaneous": {
+      "logreg_C": 1.0,
+      "dev_macro_f1": 0.647863,
+      "train_size": 1098
+    }
+  },
+  "dev_size": 0.15
+}
